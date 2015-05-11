@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "performance", "performance\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageManager", "MessageManager\MessageManager.csproj", "{0AF92235-54B0-46B0-9F7C-E753DAA58A38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myDotNetLib", "lib\myDotNetLib\myDotNetLib.csproj", "{7A04DA80-47C9-419C-800C-980B45E955CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{0AF92235-54B0-46B0-9F7C-E753DAA58A38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AF92235-54B0-46B0-9F7C-E753DAA58A38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AF92235-54B0-46B0-9F7C-E753DAA58A38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A04DA80-47C9-419C-800C-980B45E955CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A04DA80-47C9-419C-800C-980B45E955CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A04DA80-47C9-419C-800C-980B45E955CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A04DA80-47C9-419C-800C-980B45E955CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{0A464AE1-9273-44FA-94E3-DB12EEFC98A4} = {DA941410-E29D-472B-AB4D-D31B97AE7CE4}
 		{AB62C5F4-129E-483A-A194-5C3C67E859AD} = {DA941410-E29D-472B-AB4D-D31B97AE7CE4}
 		{0AF92235-54B0-46B0-9F7C-E753DAA58A38} = {DA941410-E29D-472B-AB4D-D31B97AE7CE4}
+		{7A04DA80-47C9-419C-800C-980B45E955CD} = {49126830-5A85-4E5C-9322-D832A1FFE4B1}
 	EndGlobalSection
 EndGlobal
