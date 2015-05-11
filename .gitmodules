@@ -1,3 +1,6 @@
 [submodule "lib/agsXmpp"]
 	path = lib/agsXmpp
 	url = http://github.com/foxundermoon/agsXmpp
+;[submodule "lib/myDotNetLib"]
+    ;path = lib/myDotNetLib
+    ;url = http://github.com/foxundermoon/myDotNetLib
