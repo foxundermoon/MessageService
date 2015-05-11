@@ -140,12 +140,6 @@
     <Folder Include="UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\agsxmpp\agsXMPP2010.csproj">
-      <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
-      <Name>agsXMPP2010</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
@@ -167,6 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
+      <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
+      <Name>agsXMPP2010</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,3 @@
+[submodule "lib/agsXmpp"]
+	path = lib/agsXmpp
+	url = http://github.com/foxundermoon/agsXmpp

@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageSystem", "MessageServer\MessageSystem.csproj", "{207F349A-2659-4CA1-BE21-82F370BB8358}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agsXMPP2010", "..\agsxmpp\agsXMPP2010.csproj", "{91EA0D0B-D3BA-497F-AFEB-2CAD59DEBA0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agsXMPP2010", "lib\agsXmpp\agsXMPP2010.csproj", "{91EA0D0B-D3BA-497F-AFEB-2CAD59DEBA0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
