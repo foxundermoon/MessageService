@@ -8,10 +8,8 @@ using System.Diagnostics;
 using MessageService.Core.Xmpp;
 using agsXMPP;
 using MessageService.Core.Utils;
-using System.Data.Entity.Validation;
 using System.Data;
 using System.Text;
-using System.Data.Entity;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
 namespace MessageService.Core.Xmpp

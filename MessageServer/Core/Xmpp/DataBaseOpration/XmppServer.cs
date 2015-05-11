@@ -13,7 +13,6 @@ using System.Configuration;
 using MessageService.Core.Config;
 using MessageService.Core.Utils;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Text;

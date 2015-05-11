@@ -4,7 +4,6 @@ using MessageService.Core.Xmpp;
 using MessageService.Core.Xmpp.Handler;
 //using FoxundermoonLib.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace MessageService
 {

@@ -12,9 +12,7 @@ using System.Collections.Concurrent;
 using System.Configuration;
 using MessageService.Core.Config;
 using MessageService.Core.Utils;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 namespace MessageService.Core.Xmpp {
     public partial class XmppServer {
         static object _lock = new object();

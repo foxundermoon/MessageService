@@ -14,7 +14,6 @@ using MessageService.Core.Config;
 using MessageService.Core.Utils;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 namespace MessageService.Core.Xmpp {
    partial class XmppServer {
