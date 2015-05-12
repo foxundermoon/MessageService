@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using XmppEx;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using agsXMPP;
 using System.Diagnostics;
 using agsXMPP.protocol.client;

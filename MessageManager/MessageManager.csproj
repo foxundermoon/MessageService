@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MessageManager</RootNamespace>
     <AssemblyName>MessageManager</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,10 +56,6 @@
     <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
       <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
       <Name>myDotNetLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MessageServer\MessageSystem.csproj">
-      <Project>{207f349a-2659-4ca1-be21-82f370bb8358}</Project>
-      <Name>MessageSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
