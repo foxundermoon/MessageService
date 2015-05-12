@@ -66,9 +66,9 @@
       <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
       <Name>myDotNetLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XmppClient\XmppClient.csproj">
+    <ProjectReference Include="..\XmppClient\XmppClientWithUI.csproj">
       <Project>{b7f9b983-081a-4008-8b1b-679ef01108b5}</Project>
-      <Name>XmppClient</Name>
+      <Name>XmppClientWithUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

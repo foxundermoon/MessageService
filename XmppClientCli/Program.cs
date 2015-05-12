@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using XmppClient;
+using XmppEx;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using agsXMPP;
 using System.Diagnostics;
 using agsXMPP.protocol.client;
-using FoxundermoonLib.EncryptUtil;
+using FoxundermoonLib.Encrypt;
 using System.Configuration;
 
 namespace XmppClientCli {
@@ -20,7 +20,7 @@ namespace XmppClientCli {
         //static IMongoCollection<BsonDocument> errorColection;
         Random rand = new Random();
         Timer autoSending;
-        XmppClient.XmppClient xmppClient;
+        XmppEx.XmppClient xmppClient;
         static void Main( string[] args ) {
             if(args!=null && args.Length>=1) {
                 ClientProfi(args);
@@ -33,7 +33,7 @@ namespace XmppClientCli {
 
         private static void ClientMutiSend( ) {
             Program p = new Program();
-            var xmppClient = XmppClient.XmppClient.Instance;
+            var xmppClient = XmppEx.XmppClient.Instance;
             xmppClient.Password = "123456";
             xmppClient.ServerJid = new Jid("80000@"+xmppServer+"/server");
             xmppClient.LocalJid = new Jid("0@"+xmppServer+"/XmppCli");
@@ -236,7 +236,7 @@ namespace XmppClientCli {
                 //    ).Start();
                 Program p =new Program();
                 //var xmppClient = XmppClient.XmppClient.Instance;
-                var xmppClient = XmppClient.XmppClient.CreatNewInstance();
+                var xmppClient = XmppEx.XmppClient.CreatNewInstance();
                 xmppClient.Password = password;
                 xmppClient.Name = Convert.ToString(i);
                 xmppClient.ServerJid = new Jid("0@"+xmppServer+"/server");
@@ -251,7 +251,7 @@ namespace XmppClientCli {
         }
         private static void SingleLogin( string name, string password ) {
             Program p = new Program();
-            var xmppClient = XmppClient.XmppClient.Instance;
+            var xmppClient = XmppEx.XmppClient.Instance;
             xmppClient.Password = password;
             xmppClient.ServerJid = new Jid("0@"+ xmppServer +"/server");
             xmppClient.LocalJid = new Jid(name+"@"+xmppServer+"/XmppCli");

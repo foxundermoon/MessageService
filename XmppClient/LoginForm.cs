@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace XmppClient {
+namespace XmppEx {
     public partial class LoginForm : Form {
         XmppClientForm client;
         public bool AutoLogin { get; set; }

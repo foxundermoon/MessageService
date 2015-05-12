@@ -11,8 +11,6 @@ using agsXMPP.Xml.Dom;
 using System.Collections.Concurrent;
 using System.Configuration;
 using MessageService.Core.Config;
-using MessageService.Core.Utils;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MessageService.Core.Xmpp {

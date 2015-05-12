@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using agsXMPP;
 using agsXMPP.protocol.client;
 using System.Threading;
-namespace XmppClient {
+namespace XmppEx {
     public class XmppClient {
         public bool IsRunDaemon { get; set; }
         public Jid LocalJid { get; set; }

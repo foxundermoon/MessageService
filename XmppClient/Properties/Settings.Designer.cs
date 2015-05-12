@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XmppClient.Properties
+namespace XmppEx.Properties
 {
 
 

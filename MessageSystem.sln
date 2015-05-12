@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{DA9414
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmppClientCli", "XmppClientCli\XmppClientCli.csproj", "{C4E5038D-F0A0-479C-B67D-A9B009222F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmppClient", "XmppClient\XmppClient.csproj", "{B7F9B983-081A-4008-8B1B-679EF01108B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmppClientWithUI", "XmppClient\XmppClientWithUI.csproj", "{B7F9B983-081A-4008-8B1B-679EF01108B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{0A464AE1-9273-44FA-94E3-DB12EEFC98A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageManager.Sample", "Samples\MessageManager.Sample.csproj", "{0A464AE1-9273-44FA-94E3-DB12EEFC98A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "performance", "performance\performance.csproj", "{AB62C5F4-129E-483A-A194-5C3C67E859AD}"
 EndProject

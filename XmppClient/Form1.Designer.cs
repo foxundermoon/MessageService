@@ -1,4 +1,4 @@
-﻿namespace XmppClient
+﻿namespace XmppEx
 {
     partial class Form1
     {

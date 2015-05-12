@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XmppClient
+namespace XmppEx
 {
     public delegate void XmppConnectionErrorHandler(object sender, ErrorMessage msg);
     public delegate void ReLoginFailedHandler(object sender,ErrorMessage msg);

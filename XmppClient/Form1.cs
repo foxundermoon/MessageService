@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using agsXMPP;
 using agsXMPP.protocol.client;
 
-namespace XmppClient
+namespace XmppEx
 {
     public partial class Form1 : Form
     {

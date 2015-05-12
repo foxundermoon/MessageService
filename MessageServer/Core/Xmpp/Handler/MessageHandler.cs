@@ -7,11 +7,13 @@ using MessageService;
 using System.Diagnostics;
 using MessageService.Core.Xmpp;
 using agsXMPP;
-using MessageService.Core.Utils;
 using System.Data;
 using System.Text;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
+using FoxundermoonLib.Database.Mysql;
+using FoxundermoonLib.Encrypt;
+using FoxundermoonLib.XmppEx;
 namespace MessageService.Core.Xmpp
 {
     public partial class XmppServer
@@ -68,7 +70,7 @@ namespace MessageService.Core.Xmpp
                     connection.Send(msg);
                 }
             }
-            Data.Message message = new Data.Message();
+            FoxundermoonLib.XmppEx.Data.Message message = new FoxundermoonLib.XmppEx.Data.Message();
             message.SetJsonMessage(content);
             message.SetJsonCommand(command);
             Console.WriteLine(message.ToJson(true));
@@ -85,7 +87,7 @@ namespace MessageService.Core.Xmpp
                     }
                     sqlb.Append("`").Append(message.DataTable.TableName).Append("`(");
                     var sbv = new StringBuilder();
-                    foreach (MessageService.Core.Data.Column c in message.DataTable.DataColumns)
+                    foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
                     {
                         sqlb.Append("`").Append(c.ColumnName).Append("` , ");
                         sbv.Append("@").Append(c.ColumnName).Append(",");
@@ -133,7 +135,7 @@ namespace MessageService.Core.Xmpp
                     if (!string.IsNullOrEmpty(message.DataTable.Database))
                         sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
                     sqlb.Append("`").Append(message.DataTable.TableName).Append("` SET ");
-                    foreach (MessageService.Core.Data.Column c in message.DataTable.DataColumns)
+                    foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
                     {
                         sqlb.Append(c.ColumnName).Append("=@").Append(c.ColumnName).Append(",");
                     }
@@ -152,12 +154,12 @@ namespace MessageService.Core.Xmpp
                 }
 
             }
-            if (message.Command.Operation == "runsql" && !string.IsNullOrEmpty(message.Command.Sql))
+            if  (message.Command!=null && message.Command.Operation == "runsql" && !string.IsNullOrEmpty(message.Command.Sql))
             {
                 MysqlHelper.ExecuteNonQuery(message.Command.Sql);
 
             }
-            if (message.Command.Operation == "query" && !string.IsNullOrEmpty(message.Command.Sql))
+            if (message.Command !=null&& message.Command.Operation == "query" && !string.IsNullOrEmpty(message.Command.Sql))
             {
                 try
                 {
@@ -173,6 +175,16 @@ namespace MessageService.Core.Xmpp
                 catch (Exception e)
                 {
                     Console.Write(e.Message);
+                }
+            }
+
+            if (FoxundermoonLib.XmppEx.Command.Cmd.GetOnlineUsers.Equals(message.Command.Name))
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("UserName");
+                foreach(var item in XmppConnectionDic){
+                    var row = dt.Rows.Add();
+
                 }
             }
             //var insertSql = string.Format("INSERT INTO `message`( `content`, `from`, `to`, `subject`) VALUES ('{0}','{1}','{2}','{3}')", content, from, to, msg.Subject);

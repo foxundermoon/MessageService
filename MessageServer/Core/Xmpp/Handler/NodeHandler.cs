@@ -5,7 +5,6 @@ using System.Web;
 using MessageService.Core.Xmpp;
 using agsXMPP;
 using agsXMPP.Xml.Dom;
-using MessageService.Core.Utils;
 
 namespace MessageService.Core.Xmpp
 {

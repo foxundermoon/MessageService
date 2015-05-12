@@ -75,21 +75,6 @@
     <Compile Include="Core\Account\Account.cs" />
     <Compile Include="Core\Account\AccountBus.cs" />
     <Compile Include="Core\Config\Config.cs" />
-    <Compile Include="Core\Data\Column.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Core\Data\ColumnCollection.cs" />
-    <Compile Include="Core\Data\Command.cs" />
-    <Compile Include="Core\Data\DicKeys.cs" />
-    <Compile Include="Core\Data\Message.cs" />
-    <Compile Include="Core\Data\Table.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Core\Utils\EncryptUtil.cs" />
-    <Compile Include="Core\Utils\HashHelper.cs" />
-    <Compile Include="Core\Utils\MyMd5.cs" />
-    <Compile Include="Core\Utils\MysqlHelper.cs" />
-    <Compile Include="Core\Utils\TimeHelper.cs" />
     <Compile Include="Core\Xmpp\Broadcast\Type.cs" />
     <Compile Include="Core\Xmpp\Cast\XmppServer.cs" />
     <Compile Include="Core\Xmpp\DataBaseOpration\XmppServer.cs" />
@@ -152,6 +137,10 @@
     <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
       <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
       <Name>agsXMPP2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
+      <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
+      <Name>myDotNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

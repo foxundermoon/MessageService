@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,7 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Message\MessageManager.cs" />
+    <Compile Include="XmppEx\ClientException.cs" />
+    <Compile Include="XmppEx\Events.cs" />
+    <Compile Include="XmppEx\Ping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmppEx\XmppClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
+      <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
+      <Name>agsXMPP2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
+      <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
+      <Name>myDotNetLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessageServer\MessageSystem.csproj">
+      <Project>{207f349a-2659-4ca1-be21-82f370bb8358}</Project>
+      <Name>MessageSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

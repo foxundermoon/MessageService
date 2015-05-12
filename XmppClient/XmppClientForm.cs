@@ -1,5 +1,5 @@
 ﻿using agsXMPP;
-using FoxundermoonLib.EncryptUtil;
+using FoxundermoonLib.Encrypt;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FoxundermoonLib.Database;
 
-namespace XmppClient
+namespace XmppEx
 {
     public partial class XmppClientForm : Form
     {
