@@ -54,7 +54,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.3.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MySql.Data.6.9.6\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -75,7 +78,6 @@
     <Compile Include="Core\Account\Account.cs" />
     <Compile Include="Core\Account\AccountBus.cs" />
     <Compile Include="Core\Config\Config.cs" />
-    <Compile Include="Core\Xmpp\Broadcast\Type.cs" />
     <Compile Include="Core\Xmpp\Cast\XmppServer.cs" />
     <Compile Include="Core\Xmpp\DataBaseOpration\XmppServer.cs" />
     <Compile Include="Core\Xmpp\Handler\HandlerException.cs" />

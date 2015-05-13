@@ -64,9 +64,9 @@ namespace MessageManager
             XmppClient = XmppEx.XmppClient.GetInstance();
             XmppClient.Name = UserName;
             XmppClient.Password = UserPassword;
-            var server = new agsXMPP.Jid("0@" +MessageServerHost +":"+MessageServerPort +"/WinForm");
+            var server = new agsXMPP.Jid("0@" +MessageServerHost  +"/WinForm");
             XmppClient.ServerJid = server;
-            XmppClient.LocalJid = new agsXMPP.Jid(UserName + MessageServerHost + ":" + MessageServerPort + "/WinForm ");
+            XmppClient.LocalJid = new agsXMPP.Jid(UserName+"@" + MessageServerHost + "/WinForm ");
             regXmppEvent();
             try
             {
@@ -144,6 +144,7 @@ namespace MessageManager
                     var err = new ErrorEvent(e.Message);
                     err.ErrT = ErrorEvent.ErrorType.ParseMessageFailed;
                     OnError(err);
+                    throw e;
                 }
              
             }

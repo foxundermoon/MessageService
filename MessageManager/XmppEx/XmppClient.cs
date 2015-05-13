@@ -17,7 +17,7 @@ namespace XmppEx {
         private PingResponse pingRespose;
         public string Password { get; set; }
         public bool IsLongined { get; set; }
-        private int pinginterval;
+        public int pinginterval;
         public event ObjectHandler OnLogin;
         public event MessageHandler OnMessage;
         public event PresenceHandler OnPresence;
@@ -38,10 +38,10 @@ namespace XmppEx {
         static private object locked = new object();
         public DataHolder holder = new DataHolder();
         private XmppClient( ) {
-            pinginterval = int.Parse(System.Configuration.ConfigurationManager.AppSettings["pinginterval"].ToString());
-            ServerJid = new Jid("0", System.Configuration.ConfigurationManager.AppSettings["xmppserver"].ToString(), "server");
+            pinginterval = 20; //int.Parse(System.Configuration.ConfigurationManager.AppSettings["pinginterval"].ToString());
+            //ServerJid = new Jid("0", "10.80.5.222", "server");
             holder.CurrentConnectCount = 0;
-            holder.ReConnectCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["reconnectcount"].ToString());
+            holder.ReConnectCount = 5; //int.Parse(System.Configuration.ConfigurationManager.AppSettings["reconnectcount"].ToString());
         }
 
         public static XmppClient CreatNewInstance( ) {
@@ -125,9 +125,7 @@ namespace XmppEx {
         public void Login( ) {
             if(string.IsNullOrWhiteSpace(Name)) {
                 throw new ClientException("用户id不能为空!");
-            } else {
-                LocalJid = new Jid(Name, System.Configuration.ConfigurationManager.AppSettings["xmppserver"].ToString(), "winform");
-            }
+            } 
             if(string.IsNullOrWhiteSpace(Password))
                 throw new ClientException("Password is empty!");
             if(XmppConnection == null) {

@@ -17,7 +17,7 @@ namespace MessageService.Core.Xmpp
         {
             ProcessIQAsync(contextConnection, iq);
         }
-        private   void ProcessIQAsync(agsXMPP.XmppSeverConnection contextConnection, IQ iq)
+        private void ProcessIQAsync(agsXMPP.XmppSeverConnection contextConnection, IQ iq)
         {
             if (iq.Query.GetType() == typeof(Auth))
             {
@@ -29,13 +29,13 @@ namespace MessageService.Core.Xmpp
                         iq.Type = IqType.result;
                         auth.AddChild(new Element("password"));
                         //auth.AddChild(new Element("digest"));
-                        Console.WriteLine(auth.Username +" :开始登陆!");
+                        Console.WriteLine(auth.Username + " :开始登陆!");
                         contextConnection.Send(iq);
                         break;
                     case IqType.set:
                         // Here we should verify the authentication credentials
                         iq.SwitchDirection();
-                        if ( AccountBus.CheckAccountAsync(auth.Username, auth.Password))  //验证用户是否存在或者密码是否正确
+                        if (AccountBus.CheckAccountAsync(auth.Username, auth.Password))  //验证用户是否存在或者密码是否正确
                         {
                             contextConnection.IsAuthentic = true;
                             iq.Type = IqType.result;
@@ -49,16 +49,23 @@ namespace MessageService.Core.Xmpp
                                 if (XmppConnectionDic.ContainsKey(uid))
                                 {
                                     XmppSeverConnection _;
-                                    if(!XmppConnectionDic.TryRemove(uid, out _)) {
-                                        Console.WriteLine("Remove "+uid +" connection  failued");
+                                    if (!XmppConnectionDic.TryRemove(uid, out _))
+                                    {
+                                        Console.WriteLine("Remove " + uid + " connection  failued");
                                         Console.ReadKey();
                                     }
                                 }
-                                if(!XmppConnectionDic.TryAdd(uid, contextConnection)) {
-                                    Console.WriteLine("add  "+uid +" connection  failued");
+                                if (!XmppConnectionDic.TryAdd(uid, contextConnection))
+                                {
+                                    Console.WriteLine("add  " + uid + " connection  failued");
                                     Console.ReadKey();
                                 }
-                                Console.WriteLine(auth.Username +": 账号验证成功!");
+                                Console.WriteLine(auth.Username + ": 账号验证成功!");
+
+                                FoxundermoonLib.XmppEx.Data.Message loginSuccess = new FoxundermoonLib.XmppEx.Data.Message();
+                                loginSuccess.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserLoginSuccess;
+                                loginSuccess.AddProperty("UserName", uid);
+                                Broadcast(loginSuccess);
                             }
                             catch (Exception e)
                             {
@@ -71,7 +78,12 @@ namespace MessageService.Core.Xmpp
                         {
                             // authorize failed
                             iq.Type = IqType.error;  //若要开启验证功能去掉此注释
-                            Console.WriteLine(auth.Username +":账号验证失败!");
+                            Console.WriteLine(auth.Username + ":账号验证失败!");
+                            FoxundermoonLib.XmppEx.Data.Message loginFailed = new FoxundermoonLib.XmppEx.Data.Message();
+                            loginFailed.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.ErrorMessage; 
+                            loginFailed.AddProperty("Cause","账号验证失败，请检查用户名或者密码");
+                            loginFailed.ToUser = auth.Username;
+                            UniCast(loginFailed);
                             //iq.Type = IqType.result;
                             iq.Query = null;
                             iq.Value = "authorized failed";
