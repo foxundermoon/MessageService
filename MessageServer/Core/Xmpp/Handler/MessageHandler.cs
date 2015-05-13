@@ -161,6 +161,7 @@ namespace MessageService.Core.Xmpp
             }
             if (message.Command !=null&& message.Command.Operation == "query" && !string.IsNullOrEmpty(message.Command.Sql))
             {
+                ///查询
                 try
                 {
 
@@ -180,12 +181,21 @@ namespace MessageService.Core.Xmpp
 
             if (FoxundermoonLib.XmppEx.Command.Cmd.GetOnlineUsers.Equals(message.Command.Name))
             {
+                ///获取在线用户
                 DataTable dt = new DataTable();
                 dt.Columns.Add("UserName");
                 foreach(var item in XmppConnectionDic){
-                    var row = dt.Rows.Add();
-
+                    var row = dt.NewRow();
+                    row["UserName"] = item.Key;
+                    dt.Rows.Add(row);
                 }
+                message.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.GetOnlineUsersResponse;
+                message.setDataTable(dt);
+                msg.SwitchDirection();
+                msg.Subject = message.GetJsonCommand();
+                msg.Body = EncryptUtil.EncryptBASE64ByGzip( message.ToJson());
+                contextConnection.Send(msg);
+
             }
             //var insertSql = string.Format("INSERT INTO `message`( `content`, `from`, `to`, `subject`) VALUES ('{0}','{1}','{2}','{3}')", content, from, to, msg.Subject);
             //var result = MysqlHelper.ExecuteNonQuery(insertSql);
