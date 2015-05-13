@@ -92,13 +92,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Database1.mdf" />
+    <Content Include="App_Data\Database1_log.ldf">
+      <DependentUpon>Database1.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\FileManager.mdf" />
+    <Content Include="App_Data\FileManager_log.ldf">
+      <DependentUpon>FileManager.mdf</DependentUpon>
+    </Content>
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Core\ClientManage\" />
     <Folder Include="Core\Common\" />
     <Folder Include="UploadFiles\" />
