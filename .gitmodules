@@ -4,4 +4,4 @@
  
 [submodule "lib/myDotNetLib"]
 	path = lib/myDotNetLib
-	url = http://github.com/foxundermoon/myDotNetLib
+	url = http://foxundermoon:git232381204@github.com/foxundermoon/myDotNetLib
