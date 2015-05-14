@@ -27,29 +27,38 @@ namespace MessageService.Core.Xmpp
             msg.From = new Jid(string.IsNullOrEmpty(message.FromUser) ? "0" : message.FromUser + "@" + Config.ServerIp);
             msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
             msg.Subject = message.GetJsonCommand();
+            msg.Language = "BASE64";
             foreach (var con in XmppConnectionDic)
             {
                 Jid to = new Jid(con.Key + "@" + Config.ServerIp);
                 msg.To = to;
                 con.Value.Send(msg);
             }
-
         }
 
         public void UniCast(FoxundermoonLib.XmppEx.Data.Message message)
         {
-            Message msg = new Message();
-            msg.From = new Jid(string.IsNullOrEmpty(message.FromUser) ? "0" : message.FromUser + "@" + Config.ServerIp);
             if (string.IsNullOrEmpty(message.ToUser))
                 throw new Exception("not set ToUser in the message");
-            msg.To = new Jid(message.ToUser + "@" + Config.ServerIp);
-
             var hasCon = XmppConnectionDic.Keys.Contains(message.ToUser);
             if (!hasCon)
                 throw new Exception("the user are not online");
-            XmppSeverConnection con =null;
+            XmppSeverConnection con = null;
             if (XmppConnectionDic.TryGetValue(message.ToUser, out con))
-                con.Send(msg);
+                UniCast(con, message);
+        }
+        public void UniCast(XmppSeverConnection contexCon, FoxundermoonLib.XmppEx.Data.Message message)
+        {
+            Message msg = new Message();
+            msg.From = new Jid(string.IsNullOrEmpty(message.FromUser) ? "0" : message.FromUser + "@" + Config.ServerIp);
+            if (!string.IsNullOrEmpty(message.ToUser))
+            {
+                msg.To = new Jid(message.ToUser + "@" + Config.ServerIp);
+            }
+            msg.Language = "BASE64";
+            msg.Subject = message.GetJsonCommand();
+            msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
+            contexCon.Send(msg);
         }
     }
 }

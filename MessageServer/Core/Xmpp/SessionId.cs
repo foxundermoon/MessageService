@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
+using agsXMPP.Util;
 
 namespace agsXMPP
 {
@@ -23,7 +24,7 @@ namespace agsXMPP
             byte[] buf = new byte[m_lenght];
             RNG.GetBytes(buf);
 
-            return Util.Hash.HexToString(buf);
+            return   Hash.HexToString(buf);
         }
     }
 }

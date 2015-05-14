@@ -50,10 +50,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
-      <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
-      <Name>agsXMPP2010</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
       <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
       <Name>myDotNetLib</Name>

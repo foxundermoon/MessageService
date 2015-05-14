@@ -70,7 +70,7 @@ namespace XmppEx
 
         private void xmpp_OnMessage(object sender, agsXMPP.protocol.client.Message msg)
         {
-            textBox1.AppendText(msg.From);
+            textBox1.AppendText(msg.From.ToString());
             textBox1.AppendText(msg.Body);
         }
 

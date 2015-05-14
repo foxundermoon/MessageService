@@ -14,6 +14,7 @@ using MySql.Data.MySqlClient;
 using FoxundermoonLib.Database.Mysql;
 using FoxundermoonLib.Encrypt;
 using FoxundermoonLib.XmppEx;
+using FoxundermoonLib.XmppEx.Command;
 namespace MessageService.Core.Xmpp
 {
     public partial class XmppServer
@@ -183,9 +184,13 @@ namespace MessageService.Core.Xmpp
                 DataTable dt = new DataTable();
                 dt.Columns.Add("UserName");
                 foreach(var item in XmppConnectionDic){
-                    var row = dt.Rows.Add();
-
+                    var row = dt.NewRow();
+                    row["UserName"] = item.Key;
+                    dt.Rows.Add(row);
                 }
+                message.setDataTable(dt);
+                message.Command.Name = Cmd.GetOnlineUsersResponse;
+                UniCast(contextConnection, message);
             }
             //var insertSql = string.Format("INSERT INTO `message`( `content`, `from`, `to`, `subject`) VALUES ('{0}','{1}','{2}','{3}')", content, from, to, msg.Subject);
             //var result = MysqlHelper.ExecuteNonQuery(insertSql);

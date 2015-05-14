@@ -48,8 +48,16 @@ namespace MessageService.Core.Xmpp
 
                                 if (XmppConnectionDic.ContainsKey(uid))
                                 {
+                                    FoxundermoonLib.XmppEx.Data.Message offLine = new FoxundermoonLib.XmppEx.Data.Message();
+                                    offLine.ToUser = uid;
+                                    offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.OnLineAtOtherPlace;
+                                    UniCast(offLine);
                                     XmppSeverConnection _;
-                                    if (!XmppConnectionDic.TryRemove(uid, out _))
+                                    if (XmppConnectionDic.TryRemove(uid, out _))
+                                    {
+                                        Console.WriteLine( uid + " loginAtOtherPlace");
+                                    }
+                                    else
                                     {
                                         Console.WriteLine("Remove " + uid + " connection  failued");
                                         Console.ReadKey();
@@ -65,6 +73,7 @@ namespace MessageService.Core.Xmpp
                                 FoxundermoonLib.XmppEx.Data.Message loginSuccess = new FoxundermoonLib.XmppEx.Data.Message();
                                 loginSuccess.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserLoginSuccess;
                                 loginSuccess.AddProperty("UserName", uid);
+                                loginSuccess.ToUser = uid;
                                 Broadcast(loginSuccess);
                             }
                             catch (Exception e)
@@ -72,6 +81,7 @@ namespace MessageService.Core.Xmpp
                                 // 消息没有 From    dosomething
                                 iq.Type = IqType.error;
                                 iq.Value = e.Message;
+                                Console.WriteLine("Exception --> message: "+e.Message  +"  data:"+e.Data );
                             }
                         }
                         else

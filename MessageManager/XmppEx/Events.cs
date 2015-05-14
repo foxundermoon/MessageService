@@ -53,6 +53,7 @@ namespace XmppEx
         public ErrorEvent(string msg)
             : base(msg)
         {
+            ErrT = ErrorType.System;
         }
         public ErrorEvent(string msg, ErrorType et)
             : base(msg)
@@ -66,6 +67,7 @@ namespace XmppEx
             AuthernitedFailed,
             ParseMessageFailed,
             Common,
+            System,
         }
     }
     public class BaseEvent<DataType> : EventArgs
