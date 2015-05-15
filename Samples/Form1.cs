@@ -46,7 +46,7 @@ namespace Samples
                     p(msg.ToJson());
                     //你被顶掉线了
                     break;
-                case Cmd.UserLoginSuccess:
+                case Cmd.UserLogin:
                     var name = msg.GetProperty("UserName");
                     p("用户 " + name + "上线了");
                     break;

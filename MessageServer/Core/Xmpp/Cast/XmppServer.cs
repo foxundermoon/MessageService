@@ -32,7 +32,14 @@ namespace MessageService.Core.Xmpp
             {
                 Jid to = new Jid(con.Key + "@" + Config.ServerIp);
                 msg.To = to;
-                con.Value.Send(msg);
+                try
+                {
+                    con.Value.Send(msg);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception@XmppServer.Broadcast message:" + e.Message);
+                }
             }
         }
 
@@ -58,7 +65,14 @@ namespace MessageService.Core.Xmpp
             msg.Language = "BASE64";
             msg.Subject = message.GetJsonCommand();
             msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
-            contexCon.Send(msg);
+            try
+            {
+                contexCon.Send(msg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception@Xmppserver.UniCast" + e.Message);
+            }
         }
     }
 }

@@ -9,7 +9,8 @@ namespace MessageService.Core.Xmpp
 {
     public partial class XmppServer
     {
-        public event UserOfflineHandler UserOffLineHandler;
+        public event UserOnlineStatusHandler UserOffLineHandler;
+        public event UserOnlineStatusHandler UserOnLineHandler;
         public void UserOffline(string name)
         {
             XmppSeverConnection _ = null;
@@ -20,6 +21,16 @@ namespace MessageService.Core.Xmpp
             Broadcast(offLine);
             if (UserOffLineHandler != null)
                 UserOffLineHandler(name);
+        }
+
+        public void UserOnline(string name)
+        {
+            var onLogin = new FoxundermoonLib.XmppEx.Data.Message();
+            onLogin.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserLogin;
+            onLogin.AddProperty("UserName", name);
+            Broadcast(onLogin);
+            if (UserOnLineHandler != null)
+                UserOnLineHandler(name);
         }
     }
 }

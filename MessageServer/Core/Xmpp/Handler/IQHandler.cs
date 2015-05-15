@@ -34,7 +34,7 @@ namespace MessageService.Core.Xmpp
                         break;
                     case IqType.set:
                         // Here we should verify the authentication credentials
-                        Console.WriteLine(auth.Username + " : " + "开始验证, 密码："+auth.Password );
+                        Console.WriteLine(auth.Username + " : " + "开始验证, 密码：" + auth.Password);
                         iq.SwitchDirection();
                         if (AccountBus.CheckAccountAsync(auth.Username, auth.Password))  //验证用户是否存在或者密码是否正确
                         {
@@ -52,34 +52,20 @@ namespace MessageService.Core.Xmpp
                                     FoxundermoonLib.XmppEx.Data.Message offLine = new FoxundermoonLib.XmppEx.Data.Message();
                                     offLine.ToUser = uid;
                                     offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.OnLineAtOtherPlace;
-                                    try
-                                    {
-                                        UniCast(offLine);
-                                    }
-                                    catch (Exception ignore) { }
+
                                     XmppSeverConnection _;
                                     if (XmppConnectionDic.TryRemove(uid, out _))
                                     {
-                                        Console.WriteLine( uid + " loginAtOtherPlace");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Remove " + uid + " connection  failued");
-                                        Console.ReadKey();
+                                        UniCast(_, offLine);
+                                        Console.WriteLine(uid + " 重新登录");
                                     }
                                 }
-                                if (!XmppConnectionDic.TryAdd(uid, contextConnection))
+                                if (XmppConnectionDic.TryAdd(uid, contextConnection))
                                 {
-                                    Console.WriteLine("add  " + uid + " connection  failued");
-                                    Console.ReadKey();
+                                    Console.WriteLine(auth.Username + ": 账号验证成功,并加入连接池！");
                                 }
-                                Console.WriteLine(auth.Username + ": 账号验证成功!");
 
-                                FoxundermoonLib.XmppEx.Data.Message loginSuccess = new FoxundermoonLib.XmppEx.Data.Message();
-                                loginSuccess.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserLoginSuccess;
-                                loginSuccess.AddProperty("UserName", uid);
-                                loginSuccess.ToUser = uid;
-                                Broadcast(loginSuccess);
+                                UserOnline(uid);
                                 contextConnection.UserName = uid;
                             }
                             catch (Exception e)
@@ -87,7 +73,7 @@ namespace MessageService.Core.Xmpp
                                 // 消息没有 From    dosomething
                                 iq.Type = IqType.error;
                                 iq.Value = e.Message;
-                                Console.WriteLine("Exception --> message: "+e.Message  +"  data:"+e.Data );
+                                Console.WriteLine("Exception --> message: " + e.Message + "  data:" + e.Data);
                             }
                         }
                         else
@@ -96,8 +82,8 @@ namespace MessageService.Core.Xmpp
                             iq.Type = IqType.error;  //若要开启验证功能去掉此注释
                             Console.WriteLine(auth.Username + ":账号验证失败!");
                             FoxundermoonLib.XmppEx.Data.Message loginFailed = new FoxundermoonLib.XmppEx.Data.Message();
-                            loginFailed.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.ErrorMessage; 
-                            loginFailed.AddProperty("Cause","账号验证失败，请检查用户名或者密码");
+                            loginFailed.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.ErrorMessage;
+                            loginFailed.AddProperty("Cause", "账号验证失败，请检查用户名或者密码");
                             loginFailed.ToUser = auth.Username;
                             UniCast(loginFailed);
                             //iq.Type = IqType.result;

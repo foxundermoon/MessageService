@@ -8,7 +8,7 @@ using XmppEx;
 
 namespace MessageManager
 {
-  public  class MessageManager
+    public class MessageManager
     {
         public XmppEx.XmppClient XmppClient { get; set; }
         static MessageManager instance;
@@ -37,7 +37,7 @@ namespace MessageManager
         public bool Start()
         {
 
-            if( string.IsNullOrEmpty(UserName))
+            if (string.IsNullOrEmpty(UserName))
             {
                 OnError(new ErrorEvent("用户名为空"));
                 return false;
@@ -64,9 +64,9 @@ namespace MessageManager
             XmppClient = XmppEx.XmppClient.GetInstance();
             XmppClient.Name = UserName;
             XmppClient.Password = UserPassword;
-            var server = new agsXMPP.Jid("0@" +MessageServerHost  +"/WinForm");
+            var server = new agsXMPP.Jid("0@" + MessageServerHost + "/WinForm");
             XmppClient.ServerJid = server;
-            XmppClient.LocalJid = new agsXMPP.Jid(UserName+"@" + MessageServerHost + "/WinForm ");
+            XmppClient.LocalJid = new agsXMPP.Jid(UserName + "@" + MessageServerHost + "/WinForm ");
             regXmppEvent();
             try
             {
@@ -125,18 +125,22 @@ namespace MessageManager
             var subject = "";
             if (msg != null)
             {
-                if ("BASE64".Equals(msg.Language))
+                if ("BASE64".Equals(msg.Language) && !string.IsNullOrEmpty(msg.Body))
                 {
                     body = FoxundermoonLib.Encrypt.EncryptUtil.DecryptBASE64ByGzip(msg.Body);
-                }else{
+                }
+                else
+                {
                     body = msg.Body;
                 }
                 subject = msg.Subject;
-                Message msgEntity= new Message();
+                Message msgEntity = new Message();
                 try
                 {
-                    msgEntity.SetJsonMessage(body);
-                    msgEntity.SetJsonCommand(subject);
+                    if (!string.IsNullOrEmpty(body))
+                        msgEntity.SetJsonMessage(body);
+                    if (!string.IsNullOrEmpty(subject))
+                        msgEntity.SetJsonCommand(subject);
                     OnMessage(msgEntity);
                 }
                 catch (Exception e)
@@ -144,9 +148,8 @@ namespace MessageManager
                     var err = new ErrorEvent(e.Message);
                     err.ErrT = ErrorEvent.ErrorType.ParseMessageFailed;
                     OnError(err);
-                    throw e;
                 }
-             
+
             }
         }
 
@@ -164,7 +167,7 @@ namespace MessageManager
             if (string.IsNullOrEmpty(m.ToUser))
                 m.ToUser = "0";
 
-            xmppMsg.From = new agsXMPP.Jid(m.FromUser + "@" + MessageServerHost +":" +MessageServerPort);
+            xmppMsg.From = new agsXMPP.Jid(m.FromUser + "@" + MessageServerHost + ":" + MessageServerPort);
             xmppMsg.To = new agsXMPP.Jid(m.ToUser + "@" + MessageServerHost + ":" + MessageServerPort);
             XmppClient.XmppConnection.Send(xmppMsg);
         }

@@ -83,7 +83,9 @@ namespace agsXMPP
             }
             catch (Exception e)
             {
-                Console.WriteLine("@XmppServerConnection.ReadCallback:"+e.Message);
+                Console.WriteLine("@XmppServerConnection.ReadCallback:" + e.Message);
+                if (!string.IsNullOrEmpty(UserName))
+                    xmppServer.UserOffline(UserName);
             }
         }
 
@@ -105,7 +107,7 @@ namespace agsXMPP
             }
             catch (Exception e)
             {
-                Console.WriteLine("@XmppServerConnection.SendCallback:"+ e.Message);
+                Console.WriteLine("@XmppServerConnection.SendCallback:" + e.Message);
                 //Console.WriteLine(e.ToString());
             }
         }

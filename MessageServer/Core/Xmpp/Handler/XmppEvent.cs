@@ -13,6 +13,6 @@ namespace MessageService.Core.Xmpp
     public delegate void IqHandler(XmppSeverConnection contextConnection,IQ iq);
     public delegate void MessageHandler(XmppSeverConnection contextConnection,Message message);
     public delegate void PresenceHandler(XmppSeverConnection contextContection,Presence presence);
-    public delegate void UserOfflineHandler(string userName);
+    public delegate void UserOnlineStatusHandler(string userName);
 
 }
