@@ -52,6 +52,7 @@ namespace agsXMPP
         }
         #endregion
         private StreamParser streamParser;
+        public string UserName { get; set; }
         private Socket m_Sock;
         private const int BUFFERSIZE = 2048;
         private byte[] buffer = new byte[BUFFERSIZE];
@@ -59,7 +60,7 @@ namespace agsXMPP
         public bool IsAuthentic { get; set; }
 
         public void ReadCallback(IAsyncResult ar)
-         {
+        {
             // Retrieve the state object and the handler socket
             // from the asynchronous state object
 
@@ -79,8 +80,10 @@ namespace agsXMPP
                     m_Sock.Shutdown(SocketShutdown.Both);
                     m_Sock.Close();
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
+                Console.WriteLine("@XmppServerConnection.ReadCallback:"+e.Message);
             }
         }
 
@@ -102,6 +105,7 @@ namespace agsXMPP
             }
             catch (Exception e)
             {
+                Console.WriteLine("@XmppServerConnection.SendCallback:"+ e.Message);
                 //Console.WriteLine(e.ToString());
             }
         }
@@ -115,6 +119,8 @@ namespace agsXMPP
 
             m_Sock.Shutdown(SocketShutdown.Both);
             m_Sock.Close();
+            if (!string.IsNullOrEmpty(UserName))
+                xmppServer.UserOffline(UserName);
         }
 
 
@@ -137,27 +143,34 @@ namespace agsXMPP
 
         private void streamParser_OnStreamStart(object sender, Node e)
         {
-            try {
+            try
+            {
                 SendOpenStream();
-            } catch(Exception ignore) { }
+            }
+            catch (Exception ignore) { }
         }
         private void streamParser_OnStreamEnd(object sender, Node e)
         {
+            if (!string.IsNullOrEmpty(UserName))
+                xmppServer.UserOffline(UserName);
 
         }
 
         private void streamParser_OnStreamElement(object sender, Node node)
         {
-            try {
-            if (OnNode != null)
-                OnNode(this, node);
-            if (OnIq != null && node.GetType() == typeof(IQ))
-                OnIq(this, node as IQ);
-            if (OnMessage != null && node.GetType() == typeof(Message))
-                OnMessage(this, node as Message);
-            if (OnPresence != null && node.GetType() == typeof(Presence))
-                OnPresence(this, node as Presence);
-            } catch(Exception ignore) {
+            try
+            {
+                if (OnNode != null)
+                    OnNode(this, node);
+                if (OnIq != null && node.GetType() == typeof(IQ))
+                    OnIq(this, node as IQ);
+                if (OnMessage != null && node.GetType() == typeof(Message))
+                    OnMessage(this, node as Message);
+                if (OnPresence != null && node.GetType() == typeof(Presence))
+                    OnPresence(this, node as Presence);
+            }
+            catch (Exception)
+            {
 
             }
 

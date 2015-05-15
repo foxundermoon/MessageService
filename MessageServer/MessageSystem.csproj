@@ -82,25 +82,17 @@
     <Compile Include="Core\Xmpp\Handler\HandlerException.cs" />
     <Compile Include="Core\Xmpp\Handler\IQHandler.cs" />
     <Compile Include="Core\Xmpp\Handler\MessageHandler.cs" />
-    <Compile Include="Core\Xmpp\Handler\MyMessageHandler.cs" />
     <Compile Include="Core\Xmpp\Handler\NodeHandler.cs" />
     <Compile Include="Core\Xmpp\Handler\PresenceHandler.cs" />
     <Compile Include="Core\Xmpp\MessageStatus.cs" />
     <Compile Include="Core\Xmpp\SessionId.cs" />
-    <Compile Include="Core\Xmpp\Handler\XmppHandlers.cs" />
+    <Compile Include="Core\Xmpp\Handler\XmppEvent.cs" />
+    <Compile Include="Core\Xmpp\Status\Status.cs" />
     <Compile Include="Core\Xmpp\XmppServer.cs" />
     <Compile Include="Core\Xmpp\XmppServerConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database1.mdf" />
-    <Content Include="App_Data\Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
-    </Content>
-    <Content Include="App_Data\FileManager.mdf" />
-    <Content Include="App_Data\FileManager_log.ldf">
-      <DependentUpon>FileManager.mdf</DependentUpon>
-    </Content>
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +101,6 @@
   <ItemGroup>
     <Folder Include="Core\ClientManage\" />
     <Folder Include="Core\Common\" />
-    <Folder Include="UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

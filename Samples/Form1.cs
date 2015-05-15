@@ -116,6 +116,7 @@ namespace Samples
             m.Command.Condition = "";
             m.Command.NeedResponse = true;
             m.Command.NeedBroadcast = true;
+            m.ToUser = "user1";
             //.....command 还有别的可以设置
             m.AddProperty("key", "some values ");   //发送字符信息给用户
             m.AddProperty("key2", "other values ");   //字符信息不限制数量,用不同的key

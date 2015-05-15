@@ -34,6 +34,7 @@ namespace MessageService.Core.Xmpp
                         break;
                     case IqType.set:
                         // Here we should verify the authentication credentials
+                        Console.WriteLine(auth.Username + " : " + "开始验证, 密码："+auth.Password );
                         iq.SwitchDirection();
                         if (AccountBus.CheckAccountAsync(auth.Username, auth.Password))  //验证用户是否存在或者密码是否正确
                         {
@@ -51,7 +52,11 @@ namespace MessageService.Core.Xmpp
                                     FoxundermoonLib.XmppEx.Data.Message offLine = new FoxundermoonLib.XmppEx.Data.Message();
                                     offLine.ToUser = uid;
                                     offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.OnLineAtOtherPlace;
-                                    UniCast(offLine);
+                                    try
+                                    {
+                                        UniCast(offLine);
+                                    }
+                                    catch (Exception ignore) { }
                                     XmppSeverConnection _;
                                     if (XmppConnectionDic.TryRemove(uid, out _))
                                     {
@@ -75,6 +80,7 @@ namespace MessageService.Core.Xmpp
                                 loginSuccess.AddProperty("UserName", uid);
                                 loginSuccess.ToUser = uid;
                                 Broadcast(loginSuccess);
+                                contextConnection.UserName = uid;
                             }
                             catch (Exception e)
                             {
@@ -107,11 +113,9 @@ namespace MessageService.Core.Xmpp
             {
                 contextConnection.Stop();
             }
-
             else if (iq.Query.GetType() == typeof(Roster))
             {
                 ProcessRosterIQ(contextConnection, iq);
-
             }
 
         }
@@ -134,9 +138,7 @@ namespace MessageService.Core.Xmpp
                     ri.AddGroup("localhost");
                     iq.Query.AddChild(ri);
                 }
-
                 RosterItem ri1 = new RosterItem();
-
                 for (int i = 1; i < 11; i++)
                 {
                     RosterItem ri = new RosterItem();
