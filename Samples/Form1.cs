@@ -32,6 +32,11 @@ namespace Samples
             button1.Enabled = false;
 
         }
+        protected override void OnClosed(EventArgs e)
+        {
+            MessageManager.MessageManager.Instance.Stop();
+            base.OnClosed(e);
+        }
 
         void manager_OnMessage(FoxundermoonLib.XmppEx.Data.Message msg)
         {

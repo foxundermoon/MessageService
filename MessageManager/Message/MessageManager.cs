@@ -1,4 +1,5 @@
 ﻿using FoxundermoonLib.XmppEx.Data;
+using FoxundermoonLib.XmppEx.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +143,14 @@ namespace MessageManager
                     if (!string.IsNullOrEmpty(subject))
                         msgEntity.SetJsonCommand(subject);
                     OnMessage(msgEntity);
+                    if (msgEntity.Command.NeedResponse)
+                    {
+                        Message response = new Message();
+                        response.Command.Name = Cmd.Response;
+                        response.ToUser = msgEntity.FromUser;
+                        response.FromUser = msgEntity.ToUser;
+                        SendMessage(response);
+                    }
                 }
                 catch (Exception e)
                 {
