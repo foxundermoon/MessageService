@@ -40,23 +40,27 @@ namespace MessageManager
 
             if (string.IsNullOrEmpty(UserName))
             {
-                OnError(new ErrorEvent("用户名为空"));
+                if (OnError != null)
+                    OnError(new ErrorEvent("用户名为空"));
                 return false;
 
             }
             if (string.IsNullOrEmpty(UserPassword))
             {
-                OnError(new ErrorEvent("用户名密码为空"));
+                if (OnError != null)
+                    OnError(new ErrorEvent("用户名密码为空"));
                 return false;
             }
             if (string.IsNullOrEmpty(MessageServerHost))
             {
-                OnError(new ErrorEvent("消息服务主机名为空"));
+                if (OnError != null)
+                    OnError(new ErrorEvent("消息服务主机名为空"));
                 return false;
             }
             if (MessageServerPort < 1)
             {
-                OnError(new ErrorEvent("消息服务端口号没设置"));
+                if (OnError != null)
+                    OnError(new ErrorEvent("消息服务端口号没设置"));
                 return false;
             }
 
@@ -111,13 +115,15 @@ namespace MessageManager
 
         void XmppClient_OnXmppError(ErrorEvent msg)
         {
-            OnError(msg);
+            if (OnError != null)
+                OnError(msg);
         }
 
 
         void XmppClient_OnLogin(object sender)
         {
-            OnLogin(new LoginEvent(true));
+            if (OnLogin != null)
+                OnLogin(new LoginEvent(true));
         }
 
         void XmppClient_OnMessage(object sender, agsXMPP.protocol.client.Message msg)
@@ -142,13 +148,15 @@ namespace MessageManager
                         msgEntity.SetJsonMessage(body);
                     if (!string.IsNullOrEmpty(subject))
                         msgEntity.SetJsonCommand(subject);
-                    OnMessage(msgEntity);
+                    if (OnMessage != null)
+                        OnMessage(msgEntity);
                 }
                 catch (Exception e)
                 {
                     var err = new ErrorEvent(e.Message);
                     err.ErrT = ErrorEvent.ErrorType.ParseMessageFailed;
-                    OnError(err);
+                    if (OnError != null)
+                        OnError(err);
                 }
                 if (msgEntity.Command.NeedResponse)
                 {
