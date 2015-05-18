@@ -143,20 +143,20 @@ namespace MessageManager
                     if (!string.IsNullOrEmpty(subject))
                         msgEntity.SetJsonCommand(subject);
                     OnMessage(msgEntity);
-                    if (msgEntity.Command.NeedResponse)
-                    {
-                        Message response = new Message();
-                        response.Command.Name = Cmd.Response;
-                        response.ToUser = msgEntity.FromUser;
-                        response.FromUser = msgEntity.ToUser;
-                        SendMessage(response);
-                    }
                 }
                 catch (Exception e)
                 {
                     var err = new ErrorEvent(e.Message);
                     err.ErrT = ErrorEvent.ErrorType.ParseMessageFailed;
                     OnError(err);
+                }
+                if (msgEntity.Command.NeedResponse)
+                {
+                    Message response = new Message();
+                    response.Command.Name = Cmd.Response;
+                    response.ToUser = msgEntity.FromUser;
+                    response.FromUser = msgEntity.ToUser;
+                    SendMessage(response);
                 }
 
             }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Samples
+namespace MessageManager
 {
     public static class ControlExt
     {
