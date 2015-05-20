@@ -28,6 +28,7 @@ namespace MessageService.Core.Xmpp
             msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
             msg.Subject = message.GetJsonCommand();
             msg.Language = "BASE64";
+            
             foreach (var con in XmppConnectionDic)
             {
                 Jid to = new Jid(con.Key + "@" + Config.ServerIp);
