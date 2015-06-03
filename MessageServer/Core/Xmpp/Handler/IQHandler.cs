@@ -10,6 +10,7 @@ using agsXMPP.protocol.iq.roster;
 using agsXMPP;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace MessageService.Core.Xmpp
 {
@@ -48,8 +49,8 @@ namespace MessageService.Core.Xmpp
                             iq.Query = null;
                             try
                             {
-                              
-                                Dictionary<string, XmppSeverConnection> cons = null;
+
+                                ConcurrentDictionary<string, XmppSeverConnection> cons = null;
                                 //Func<int,XmppSeverConnection,XmppSeverConnection> update = (k,v)=>{return v;};
                                 //XmppConnectionDic.AddOrUpdate(uid, contextConnection),(k,v)=>{return v;});
                                 var hasCons = XmppConnectionDic.TryGetValue(name, out cons);
@@ -59,7 +60,7 @@ namespace MessageService.Core.Xmpp
                                     var hasCon = cons.TryGetValue(resource, out con);
                                     if (hasCon)
                                     {
-                                        cons.Remove(resource);
+                                        cons.TryRemove(resource,out con);
                                         Console.WriteLine(name + " 重新登录");
                                         try
                                         {
@@ -75,13 +76,13 @@ namespace MessageService.Core.Xmpp
 
                                 if (!hasCons)
                                 {
-                                    cons = new Dictionary<string, XmppSeverConnection>();
+                                    cons = new ConcurrentDictionary<string, XmppSeverConnection>();
                                     if(XmppConnectionDic.TryAdd(name, cons))
                                         Console.WriteLine(auth.Username + ": 账号验证成功,并加入连接池！");
                                     else
                                         Console.WriteLine(auth.Username + ": 账号验证成功,但是加入连接池失败！");
                                 }
-                                    cons.Add(resource,contextConnection);
+                                    cons.TryAdd(resource,contextConnection);
                                     contextConnection.User = user;
                                 UserOnline(user);
                             }

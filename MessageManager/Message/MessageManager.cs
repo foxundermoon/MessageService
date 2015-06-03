@@ -28,6 +28,7 @@ namespace MessageManager
         static object _lock = new object();
         public string UserName { get; set; }
         public string UserPassword { get; set; }
+        public string Resource { get; set; }
         public string MessageServerHost { get; set; }
         public int MessageServerPort { get; set; }
         public event LoginHandler OnLogin;
@@ -69,9 +70,9 @@ namespace MessageManager
             XmppClient = XmppEx.XmppClient.GetInstance();
             XmppClient.Name = UserName;
             XmppClient.Password = UserPassword;
-            var server = new agsXMPP.Jid("0@" + MessageServerHost + "/WinForm");
+            var server = new agsXMPP.Jid("0@" + MessageServerHost + "/"+Resource);
             XmppClient.ServerJid = server;
-            XmppClient.LocalJid = new agsXMPP.Jid(UserName + "@" + MessageServerHost + "/WinForm ");
+            XmppClient.LocalJid = new agsXMPP.Jid(UserName + "@" + MessageServerHost + "/"+Resource);
             regXmppEvent();
             try
             {
@@ -179,13 +180,12 @@ namespace MessageManager
             xmppMsg.Language = "BASE64";
             xmppMsg.Subject = m.GetJsonCommand();
             xmppMsg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(m.ToJson());
-            if (null == m.FromUser|| string.IsNullOrEmpty(m.FromUser.Name))
-                m.FromUser = new User(XmppClient.Name,"server");
+            if (null == m.FromUser || string.IsNullOrEmpty(m.FromUser.Name))
+                m.FromUser = new User(XmppClient.Name,Resource);
             if (null == m.ToUser ||    string.IsNullOrEmpty(m.ToUser.Name))
                 m.ToUser = new User( "0","server");
-
-            xmppMsg.From = new agsXMPP.Jid(m.FromUser + "@" + MessageServerHost + ":" + MessageServerPort);
-            xmppMsg.To = new agsXMPP.Jid(m.ToUser + "@" + MessageServerHost + ":" + MessageServerPort);
+            xmppMsg.From = new agsXMPP.Jid(m.FromUser.Name + "@" + MessageServerHost + ":" + MessageServerPort +"/" +m.FromUser.Resource);
+            xmppMsg.To = new agsXMPP.Jid(m.ToUser.Name + "@" + MessageServerHost + ":" + MessageServerPort +"/"+m.ToUser.Resource);
             XmppClient.XmppConnection.Send(xmppMsg);
         }
     }

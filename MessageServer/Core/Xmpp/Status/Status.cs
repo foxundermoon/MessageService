@@ -1,5 +1,6 @@
 ﻿using agsXMPP;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace MessageService.Core.Xmpp
         {
             try
             {
-                Dictionary<string, XmppSeverConnection> cons = null;
+                ConcurrentDictionary<string, XmppSeverConnection> cons = null;
                 var hasCons = XmppConnectionDic.TryGetValue(user.Name, out cons);
                 if (hasCons)
                 {
@@ -23,7 +24,7 @@ namespace MessageService.Core.Xmpp
                     var hasCon = cons.TryGetValue(user.Resource, out con);
                     if (hasCon)
                     {
-                        cons.Remove(user.Resource);
+                        cons.TryRemove(user.Resource,out con);
                     }
                     var offLine = new FoxundermoonLib.XmppEx.Data.Message();
                     offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserOffLine;

@@ -10,7 +10,7 @@ namespace MessageService.Core.Xmpp
 {
  public  partial  class XmppServer
     {
-     public ConcurrentDictionary<string, Dictionary<string,XmppSeverConnection>> XmppConnectionDic { get; private set; }
+     public ConcurrentDictionary<string, ConcurrentDictionary<string, XmppSeverConnection>> XmppConnectionDic { get; private set; }
 
 
     }

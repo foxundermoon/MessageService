@@ -38,7 +38,7 @@ namespace MessageService.Core.Xmpp {
         private XmppServer( ) {
             initConfig();
             ServerJid = new agsXMPP.Jid(Config.ServerUid.ToString(), Config.ServerIp, Config.ServerResource);
-            XmppConnectionDic = new ConcurrentDictionary<string, Dictionary<string, XmppSeverConnection>>();// new Dictionary<int, XmppSeverConnection>();
+            XmppConnectionDic = new ConcurrentDictionary<string, ConcurrentDictionary<string, XmppSeverConnection>>();// new Dictionary<int, XmppSeverConnection>();
 
         }
         private void initConfig( ) {

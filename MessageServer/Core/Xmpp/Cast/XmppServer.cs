@@ -89,7 +89,7 @@ namespace MessageService.Core.Xmpp
                 throw new Exception("not set ToUser in the message");
             if (string.IsNullOrEmpty(message.ToUser.Resource))
                 throw new Exception("not set Resource");
-            Dictionary<string, XmppSeverConnection> cons = null;
+            ConcurrentDictionary<string, XmppSeverConnection> cons = null;
             var hasCons = XmppConnectionDic.TryGetValue(message.ToUser.Name, out cons);
             if (!hasCons)
                 throw new Exception("the user are not online");

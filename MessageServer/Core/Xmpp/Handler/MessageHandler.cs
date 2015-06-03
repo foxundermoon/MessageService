@@ -15,6 +15,8 @@ using FoxundermoonLib.Database.Mysql;
 using FoxundermoonLib.Encrypt;
 using FoxundermoonLib.XmppEx;
 using FoxundermoonLib.XmppEx.Command;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 namespace MessageService.Core.Xmpp
 {
     public partial class XmppServer
@@ -349,13 +351,19 @@ namespace MessageService.Core.Xmpp
             {
                 try
                 {
-                    DataTable dt = new DataTable();
-                    dt.Columns.Add("UserName");
-                    foreach (var item in XmppConnectionDic)
+                    FoxundermoonLib.XmppEx.Data.Table dt = new FoxundermoonLib.XmppEx.Data.Table();
+                    dt.DataColumns.Add("UserName");
+                    dt.DataColumns.Add("Resource");
+                    foreach (KeyValuePair<string, ConcurrentDictionary<string, agsXMPP.XmppSeverConnection>> item in XmppConnectionDic)
                     {
-                        var row = dt.NewRow();
-                        row["UserName"] = item.Key;
-                        dt.Rows.Add(row);
+                        foreach (KeyValuePair<string, agsXMPP.XmppSeverConnection> con in item.Value)
+                        {
+                            var row = dt.NewRow();
+                            row["UserName"] = item.Key;
+                            row["Resource"] = con.Key;
+                            dt.Rows.Add(row);
+                        }
+                      
                     }
                     message.setDataTable(dt);
                 }
