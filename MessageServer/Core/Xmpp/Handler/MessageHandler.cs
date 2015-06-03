@@ -24,7 +24,6 @@ namespace MessageService.Core.Xmpp
             if (contextConnection.IsAuthentic)
             {
                 processMessage(contextConnection, message);
-
             }
             else
             {
@@ -47,28 +46,29 @@ namespace MessageService.Core.Xmpp
                 content = msg.Body;
                 //dbmsg.Content = msg.Body;
             }
-            if (msg.To != null &&  !string.IsNullOrEmpty(msg.To.User))
+            if (msg.To != null && !string.IsNullOrEmpty(msg.To.User))
             {
-                message.ToUser =msg.To.User;
+                message.ToUser = new FoxundermoonLib.XmppEx.Data.User(msg.To.User, msg.To.Resource);
             }
 
             if (msg.From != null && msg.From.User != null)
             {
-                message.FromUser = msg.From.User;
+                message.FromUser = new FoxundermoonLib.XmppEx.Data.User(msg.From.User, msg.From.Resource);
             }
             command = msg.Subject;
 
             //转发 message
             // to != "0" and ""
-       
+
             message.SetJsonMessage(content);
             message.SetJsonCommand(command);
-            if (!string.IsNullOrEmpty(message.ToUser) && message.ToUser != "0" )
+            if (null != message.ToUser && message.ToUser.Name != "0")
             {
                 UniCast(message);
             }
             #endregion
             Console.WriteLine(message.ToJson(true));
+            Console.WriteLine(message.GetJsonCommand());
             #region  数据表操作
             if (Cmd.DataTable.Equals(message.Command.Name))
             {
@@ -79,99 +79,142 @@ namespace MessageService.Core.Xmpp
                     #region insert
                     if (message.Command.Operation == "insert")
                     {
-                        //INSERT INTO `nj_gps档案记录`(`ID`, `用户`, `日期`, `档案号`, `坐标串`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])
-                        sqlb.Append("INSERT INTO ");
-                        if (!string.IsNullOrEmpty(message.DataTable.Database))
+                        try
                         {
-                            sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
-                        }
-                        sqlb.Append("`").Append(message.DataTable.TableName).Append("`(");
-                        var sbv = new StringBuilder();
-                        foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
-                        {
-                            sqlb.Append("`").Append(c.ColumnName).Append("` , ");
-                            sbv.Append("@").Append(c.ColumnName).Append(",");
-                        }
-                        sqlb.Remove(sqlb.Length - 2, 2).Append(") VALUES (").Append(sbv.Remove(sbv.Length - 1, 1).Append(")").ToString());
-                        var sql = sqlb.ToString();
-                        var count = 0;
-                        foreach (DataRow r in message.DataTable.Rows)
-                        {
-                            int l = r.ItemArray.GetLength(0);
-                            MySqlParameter[] ps = new MySqlParameter[l];
-                            for (var i = 0; i < l; i++)
+                            sqlb.Append("INSERT INTO ");
+                            if (!string.IsNullOrEmpty(message.DataTable.Database))
                             {
-                                ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
                             }
-                            count += MysqlHelper.ExecuteNonQuery(sql, ps);
+                            sqlb.Append("`").Append(message.DataTable.TableName).Append("`(");
+                            var sbv = new StringBuilder();
+                            foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
+                            {
+                                sqlb.Append("`").Append(c.ColumnName).Append("` , ");
+                                sbv.Append("@").Append(c.ColumnName).Append(",");
+                            }
+                            sqlb.Remove(sqlb.Length - 2, 2).Append(") VALUES (").Append(sbv.Remove(sbv.Length - 1, 1).Append(")").ToString());
+                            var sql = sqlb.ToString();
+                            var count = 0;
+                            foreach (DataRow r in message.DataTable.Rows)
+                            {
+                                int l = r.ItemArray.GetLength(0);
+                                MySqlParameter[] ps = new MySqlParameter[l];
+                                for (var i = 0; i < l; i++)
+                                {
+                                    ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                }
+                                count += MysqlHelper.ExecuteNonQuery(sql, ps);
+                            }
+                            message.AddProperty("Count", count.ToString());
+                            wrapReturnTable(message);  //返回ID  LID 对应表
+
                         }
-                        message.SwitchDirection();
-                        message.DataTable = null;
-                        message.Command.Operation = "insertResponse";
-                        message.AddProperty("Count", count.ToString());
-                        UniCast(contextConnection, message);
+                        catch (Exception e)
+                        {
+                            message.AddProperty("error", "server error@MessageHandler DataTable insert");
+                            message.AddProperty("errorMessage", e.Message);
+                            Console.Write(e.Message);
+                        }
+                        finally
+                        {
+                            message.SwitchDirection();
+                            message.Command.Operation = "insertResponse";
+                            UniCast(contextConnection, message);
+                        }
+                        //INSERT INTO `nj_gps档案记录`(`ID`, `用户`, `日期`, `档案号`, `坐标串`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])
+
+
                     }
-                    #endregion
+                            #endregion
                     #region  delete
                     else if (message.Command.Operation == "delete")
                     {
-                        sqlb.Append("DELETE FROM ");
-                        if (!string.IsNullOrEmpty(message.DataTable.Database))
+                        try
                         {
-                            sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
-                        }
-                        sqlb.Append("`").Append(message.DataTable.TableName).Append("` WHERE ")
-                            .Append(message.Command.Condition);
-                        var sql = sqlb.ToString();
-                        var count = 0;
-                        foreach (DataRow r in message.DataTable.Rows)
-                        {
-                            int l = r.ItemArray.GetLength(0);
-                            MySqlParameter[] ps = new MySqlParameter[l];
-                            for (var i = 0; i < l; i++)
+                            sqlb.Append("DELETE FROM ");
+                            if (!string.IsNullOrEmpty(message.DataTable.Database))
                             {
-                                ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
                             }
-                            count += MysqlHelper.ExecuteNonQuery(sql, ps);
+                            sqlb.Append("`").Append(message.DataTable.TableName).Append("` WHERE ")
+                                .Append(message.Command.Condition);
+                            var sql = sqlb.ToString();
+                            var count = 0;
+                            foreach (DataRow r in message.DataTable.Rows)
+                            {
+                                int l = r.ItemArray.GetLength(0);
+                                MySqlParameter[] ps = new MySqlParameter[l];
+                                for (var i = 0; i < l; i++)
+                                {
+                                    ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                }
+                                count += MysqlHelper.ExecuteNonQuery(sql, ps);
+
+                            }
+                            message.AddProperty("Count", count.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            message.AddProperty("error", "server error@MessageHandler DataTable delete");
+                            message.AddProperty("errorMessage", e.Message);
+                            Console.Write(e.Message);
+                        }
+                        finally
+                        {
+                            message.SwitchDirection();
+                            message.DataTable = null;
+                            message.Command.Operation = "deleteResponse";
+                            UniCast(contextConnection, message);
 
                         }
-                        message.SwitchDirection();
-                        message.DataTable = null;
-                        message.Command.Operation = "deleteResponse";
-                        message.AddProperty("Count", count.ToString());
-                        UniCast(contextConnection, message);
+
+
                     }
                     #endregion
                     #region update
                     else if (message.Command.Operation == "update")
                     {
                         //UPDATE `nj_gps档案记录` SET `ID`=[value-1],`用户`=[value-2],`日期`=[value-3],`档案号`=[value-4],`坐标串`=[value-5] WHERE 1
-                        sqlb.Append("UPDATE ");
-                        if (!string.IsNullOrEmpty(message.DataTable.Database))
-                            sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
-                        sqlb.Append("`").Append(message.DataTable.TableName).Append("` SET ");
-                        foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
+                        try
                         {
-                            sqlb.Append(c.ColumnName).Append("=@").Append(c.ColumnName).Append(",");
-                        }
-                        sqlb.Remove(sqlb.Length - 1, 1).Append(" WHERE ").Append(message.Command.Condition);
-                        var sql = sqlb.ToString();
-                        var count = 0;
-                        foreach (DataRow r in message.DataTable.Rows)
-                        {
-                            int l = r.ItemArray.GetLength(0);
-                            MySqlParameter[] ps = new MySqlParameter[l];
-                            for (var i = 0; i < l; i++)
+                            sqlb.Append("UPDATE ");
+                            if (!string.IsNullOrEmpty(message.DataTable.Database))
+                                sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
+                            sqlb.Append("`").Append(message.DataTable.TableName).Append("` SET ");
+                            foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
                             {
-                                ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                sqlb.Append(c.ColumnName).Append("=@").Append(c.ColumnName).Append(",");
                             }
-                            count += MysqlHelper.ExecuteNonQuery(sql, ps);
+                            sqlb.Remove(sqlb.Length - 1, 1).Append(" WHERE ").Append(message.Command.Condition);
+                            var sql = sqlb.ToString();
+                            var count = 0;
+                            foreach (DataRow r in message.DataTable.Rows)
+                            {
+                                int l = r.ItemArray.GetLength(0);
+                                MySqlParameter[] ps = new MySqlParameter[l];
+                                for (var i = 0; i < l; i++)
+                                {
+                                    ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
+                                }
+                                count += MysqlHelper.ExecuteNonQuery(sql, ps);
+                            }
+                            message.AddProperty("Count", count.ToString());
                         }
-                        message.SwitchDirection();
-                        message.DataTable = null;
-                        message.Command.Operation = "updateResponse";
-                        message.AddProperty("Count", count.ToString());
-                        UniCast(contextConnection, message);
+                        catch (Exception e)
+                        {
+                            message.AddProperty("error", "server error@MessageHandler DataTable update");
+                            message.AddProperty("errorMessage", e.Message);
+                            Console.Write(e.Message);
+                        }
+                        finally
+                        {
+                            message.SwitchDirection();
+                            message.DataTable = null;
+                            message.Command.Operation = "updateResponse";
+                            UniCast(contextConnection, message);
+                        }
+
                     }
                     #endregion
                     #region mutiQuery
@@ -207,51 +250,65 @@ namespace MessageService.Core.Xmpp
                             sqlb.Append(message.Command.Sql);
                         }
                         #endregion
-                        if (flag)
+                        try
                         {
-                            var sql = sqlb.ToString();
-                            DataTable dt = null;
-                            foreach (DataRow r in message.DataTable.Rows)
+                            if (flag)
                             {
-                                int l = r.ItemArray.GetLength(0);
-                                MySqlParameter[] ps = new MySqlParameter[l];
-                                for (var i = 0; i < l; i++)
+                                var sql = sqlb.ToString();
+                                DataTable dt = null;
+                                foreach (DataRow r in message.DataTable.Rows)
                                 {
-                                    ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
-                                }
-                                if (dt == null)
-                                {
-                                    dt = MysqlHelper.ExecuteDataTable(sql, ps);
-                                }
-                                else
-                                {
-                                    var appd = MysqlHelper.ExecuteDataTable(sql, ps);
-                                    if (appd != null && appd.Rows.Count > 0)
+                                    int l = r.ItemArray.GetLength(0);
+                                    MySqlParameter[] ps = new MySqlParameter[l];
+                                    for (var i = 0; i < l; i++)
                                     {
-                                        foreach (DataRow _r in appd.Rows)
-                                        {
-                                            dt.Rows.Add(dt.NewRow().ItemArray = _r.ItemArray);
-                                        }
-                                        appd.Clear();
-                                        appd = null;
+                                        ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
                                     }
+                                    if (dt == null)
+                                    {
+                                        dt = MysqlHelper.ExecuteDataTable(sql, ps);
+                                    }
+                                    else
+                                    {
+                                        var appd = MysqlHelper.ExecuteDataTable(sql, ps);
+                                        if (appd != null && appd.Rows.Count > 0)
+                                        {
+                                            foreach (DataRow _r in appd.Rows)
+                                            {
+                                                dt.Rows.Add(dt.NewRow().ItemArray = _r.ItemArray);
+                                            }
+                                            appd.Clear();
+                                            appd = null;
+                                        }
+                                    }
+                                    message.setDataTable(dt);
                                 }
-
                             }
-                            message.setDataTable(dt);
+                        }
+                        catch (Exception e)
+                        {
+                            message.AddProperty("error", "server error@MessageHandler DataTable mutiquery");
+                            message.AddProperty("errorMessage", e.Message);
+                            Console.Write(e.Message);
+
+                        }
+                        finally
+                        {
                             message.SwitchDirection();
                             message.Command.Operation = "mutiQueryResponse";
                             UniCast(contextConnection, message);
                         }
 
+
                     }
+
 
                     #endregion
 
 
 
                 }
-                #endregion
+                    #endregion
                 #region runsql
                 if (message.Command != null && message.Command.Operation == "runsql" && !string.IsNullOrEmpty(message.Command.Sql))
                 {
@@ -260,45 +317,85 @@ namespace MessageService.Core.Xmpp
                     message.Command.Operation = "runsqlResponse";
                     UniCast(contextConnection, message);
                 }
-#endregion
+                #endregion
                 #region query
                 if (message.Command.Operation == "query" && !string.IsNullOrEmpty(message.Command.Sql))
                 {
                     try
                     {
-
                         DataTable dt = MysqlHelper.ExecuteDataTable(message.Command.Sql);
                         message.setDataTable(dt);
-                        message.SwitchDirection();
-                        message.Command.Operation = "queryResponse";
-                        UniCast(contextConnection, message);
                     }
                     catch (Exception e)
                     {
+                        message.AddProperty("error", "server error@MessageHandler DataTable query");
+                        message.AddProperty("errorMessage", e.Message);
                         Console.Write(e.Message);
+                    }
+                    finally
+                    {
+                        message.Command.Operation = "queryResponse";
+                        message.SwitchDirection();
+                        UniCast(contextConnection, message);
                     }
                 }
                 #endregion
             }
 
-            #endregion
+                #endregion
 
             #region 获取在线用户
             if (FoxundermoonLib.XmppEx.Command.Cmd.GetOnlineUsers.Equals(message.Command.Name))
             {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("UserName");
-                foreach (var item in XmppConnectionDic)
+                try
                 {
-                    var row = dt.NewRow();
-                    row["UserName"] = item.Key;
-                    dt.Rows.Add(row);
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("UserName");
+                    foreach (var item in XmppConnectionDic)
+                    {
+                        var row = dt.NewRow();
+                        row["UserName"] = item.Key;
+                        dt.Rows.Add(row);
+                    }
+                    message.setDataTable(dt);
                 }
-                message.setDataTable(dt);
-                message.Command.Name = Cmd.GetOnlineUsersResponse;
-                UniCast(contextConnection, message);
+                catch (Exception e)
+                {
+                    message.AddProperty("error", "server error@MessageHandler getOnlineUser ");
+                    message.AddProperty("errorMessage", e.Message);
+                }
+                finally
+                {
+                    message.Command.Name = Cmd.GetOnlineUsersResponse;
+                    UniCast(contextConnection, message);
+                }
+
+
             }
             #endregion
+        }
+
+        private static void wrapReturnTable(FoxundermoonLib.XmppEx.Data.Message message)
+        {
+            var sbin = new StringBuilder();
+            foreach (DataRow r in message.DataTable.Rows)
+            {
+                sbin.Append(r["LID"]).Append(", ");
+            }
+            sbin.Remove(sbin.Length - 1, 1);
+            string retSql = string.Format("select `ID`,`LID` from {0} where `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
+            string delSql = string.Format("DELETE FROM `{0}` WHERE `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
+            var retTable = MysqlHelper.ExecuteDataTable(retSql);
+            if (retTable != null && retTable.Rows.Count > 0)
+            {
+                message.setDataTable(retTable);
+                MysqlHelper.ExecuteNonQuery(delSql);
+            }
+            else
+            {
+                message.AddProperty("error", "server error@MessageHandler return insert");
+                message.AddProperty("errorMessage", "无法返回数据库id  插入错误或者服务器端错误");
+            }
         }
     }
 }

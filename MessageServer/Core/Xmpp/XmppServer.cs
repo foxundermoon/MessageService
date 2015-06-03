@@ -20,7 +20,6 @@ namespace MessageService.Core.Xmpp {
         private Socket listener;
         private bool m_Listening;
         static XmppServer instance;
-        public ConcurrentDictionary<string, XmppSeverConnection> XmppConnectionDic { get; private set; }
         //public event EventHandler<int> ConnectionEncrease;
         //public event EventHandler ConnectionDecrease;
         public static Jid ServerJid;
@@ -38,8 +37,9 @@ namespace MessageService.Core.Xmpp {
 
         private XmppServer( ) {
             initConfig();
-            XmppConnectionDic = new ConcurrentDictionary<string, XmppSeverConnection>();// new Dictionary<int, XmppSeverConnection>();
             ServerJid = new agsXMPP.Jid(Config.ServerUid.ToString(), Config.ServerIp, Config.ServerResource);
+            XmppConnectionDic = new ConcurrentDictionary<string, Dictionary<string, XmppSeverConnection>>();// new Dictionary<int, XmppSeverConnection>();
+
         }
         private void initConfig( ) {
             Config = new ServerConfig();

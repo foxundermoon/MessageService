@@ -12,7 +12,7 @@ using System.Collections.Concurrent;
 using System.Configuration;
 using MessageService.Core.Config;
 using System.Threading.Tasks;
-
+using agsXMPP;
 namespace MessageService.Core.Xmpp
 {
     partial class XmppServer
@@ -24,44 +24,91 @@ namespace MessageService.Core.Xmpp
         public void Broadcast(FoxundermoonLib.XmppEx.Data.Message message)
         {
             Message msg = new Message();
-            msg.From = new Jid(string.IsNullOrEmpty(message.FromUser) ? "0" : message.FromUser + "@" + Config.ServerIp);
+            if (null != message.FromUser)
+                msg.From = getJidFromUser(message.FromUser);
+            else
+                msg.From = getJidFromUser(new FoxundermoonLib.XmppEx.Data.User("0","server"));
             msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
             msg.Subject = message.GetJsonCommand();
             msg.Language = "BASE64";
-            
-            foreach (var con in XmppConnectionDic)
+
+            foreach (var cons in XmppConnectionDic)
             {
-                Jid to = new Jid(con.Key + "@" + Config.ServerIp);
-                msg.To = to;
-                try
+                foreach (var con in cons.Value)
                 {
-                    con.Value.Send(msg);
+
+                    Jid to = new Jid(cons.Key + "@" + Config.ServerIp + "/" + con.Key);
+                    msg.To = to;
+                    try
+                    {
+                        con.Value.Send(msg);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Exception@XmppServer.Broadcast message:" + e.Message);
+                    }
                 }
-                catch (Exception e)
+
+            }
+        }
+        public void Broadcast2resource(FoxundermoonLib.XmppEx.Data.Message message, string resource)
+        {
+            Message msg = new Message();
+            if (null == message.FromUser)
+                msg.From = getJidFromUser(message.FromUser);
+            else
+                msg.From = getJidFromUser(message.FromUser);
+            msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
+            msg.Subject = message.GetJsonCommand();
+            msg.Language = "BASE64";
+
+            foreach (var cons in XmppConnectionDic)
+            {
+                XmppSeverConnection  con=null;
+                var hasCon = cons.Value.TryGetValue(resource, out con);
+                if(hasCon)
                 {
-                    Console.WriteLine("Exception@XmppServer.Broadcast message:" + e.Message);
+
+                    Jid to = new Jid(cons.Key + "@" + Config.ServerIp + "/" + resource);
+                    msg.To = to;
+                    try
+                    {
+                        con.Send(msg);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Exception@XmppServer.Broadcast message:" + e.Message);
+                    }
                 }
             }
         }
 
         public void UniCast(FoxundermoonLib.XmppEx.Data.Message message)
         {
-            if (string.IsNullOrEmpty(message.ToUser))
+            if (null == message.ToUser || string.IsNullOrEmpty(message.ToUser.Name))
                 throw new Exception("not set ToUser in the message");
-            var hasCon = XmppConnectionDic.Keys.Contains(message.ToUser);
-            if (!hasCon)
+            if (string.IsNullOrEmpty(message.ToUser.Resource))
+                throw new Exception("not set Resource");
+            Dictionary<string, XmppSeverConnection> cons = null;
+            var hasCons = XmppConnectionDic.TryGetValue(message.ToUser.Name, out cons);
+            if (!hasCons)
                 throw new Exception("the user are not online");
             XmppSeverConnection con = null;
-            if (XmppConnectionDic.TryGetValue(message.ToUser, out con))
-                UniCast(con, message);
+            var hasCon = cons.TryGetValue(message.ToUser.Resource, out con);
+            if (!hasCon)
+                throw new Exception("the user of the resource are not onling");
+            UniCast(con, message);
         }
         public void UniCast(XmppSeverConnection contexCon, FoxundermoonLib.XmppEx.Data.Message message)
         {
             Message msg = new Message();
-            msg.From = new Jid(string.IsNullOrEmpty(message.FromUser) ? "0" : message.FromUser + "@" + Config.ServerIp);
-            if (!string.IsNullOrEmpty(message.ToUser))
+            if (null == message.FromUser)
+                msg.From = ServerJid;
+            else
+                msg.From = getJidFromUser(message.FromUser);
+            if (null != message.ToUser)
             {
-                msg.To = new Jid(message.ToUser + "@" + Config.ServerIp);
+                msg.To = getJidFromUser(message.ToUser);
             }
             msg.Language = "BASE64";
             msg.Subject = message.GetJsonCommand();
@@ -74,6 +121,11 @@ namespace MessageService.Core.Xmpp
             {
                 Console.WriteLine("Exception@Xmppserver.UniCast" + e.Message);
             }
+        }
+
+        public Jid getJidFromUser(FoxundermoonLib.XmppEx.Data.User u)
+        {
+            return new Jid(u.Name + "@" + Config.ServerIp + "/" + u.Resource);
         }
     }
 }

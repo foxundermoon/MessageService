@@ -14,10 +14,10 @@ namespace MessageService
         /// </summary>
         public static void Launch()
         {
-            Console.WriteLine("Starting ......");
+            Console.WriteLine("Starting xmpp service ......");
             //启动xmpp服务
             XmppServer.GetInstance().StartUp();
-            Console.WriteLine("Started");
+            Console.WriteLine("xmpp service started");
             //启动诊断
             //TraceManager.StartTrace();
         }

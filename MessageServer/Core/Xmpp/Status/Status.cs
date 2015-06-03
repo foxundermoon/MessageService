@@ -11,26 +11,45 @@ namespace MessageService.Core.Xmpp
     {
         public event UserOnlineStatusHandler UserOffLineHandler;
         public event UserOnlineStatusHandler UserOnLineHandler;
-        public void UserOffline(string name)
+        public void UserOffline(FoxundermoonLib.XmppEx.Data.User user)
         {
-            XmppSeverConnection _ = null;
-            XmppConnectionDic.TryRemove(name, out  _);
-            var offLine = new FoxundermoonLib.XmppEx.Data.Message();
-            offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserOffLine;
-            offLine.AddProperty("UserName", name);
-            Broadcast(offLine);
-            if (UserOffLineHandler != null)
-                UserOffLineHandler(name);
+            try
+            {
+                Dictionary<string, XmppSeverConnection> cons = null;
+                var hasCons = XmppConnectionDic.TryGetValue(user.Name, out cons);
+                if (hasCons)
+                {
+                    XmppSeverConnection con = null;
+                    var hasCon = cons.TryGetValue(user.Resource, out con);
+                    if (hasCon)
+                    {
+                        con.Stop();
+                        cons.Remove(user.Resource);
+                    }
+                    var offLine = new FoxundermoonLib.XmppEx.Data.Message();
+                    offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserOffLine;
+                    offLine.AddProperty("UserName", user.Name + "/" + user.Resource);
+                    Broadcast(offLine);
+                    if (UserOffLineHandler != null)
+                        UserOffLineHandler(user);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+          
+
         }
 
-        public void UserOnline(string name)
+        public void UserOnline(FoxundermoonLib.XmppEx.Data.User user)
         {
             var onLogin = new FoxundermoonLib.XmppEx.Data.Message();
             onLogin.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.UserLogin;
-            onLogin.AddProperty("UserName", name);
+            onLogin.AddProperty("UserName", user.Name +"/"+user.Resource);
             Broadcast(onLogin);
             if (UserOnLineHandler != null)
-                UserOnLineHandler(name);
+                UserOnLineHandler(user);
         }
     }
 }

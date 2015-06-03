@@ -8,6 +8,8 @@ using agsXMPP.Xml.Dom;
 using MessageService.Core.Account;
 using agsXMPP.protocol.iq.roster;
 using agsXMPP;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MessageService.Core.Xmpp
 {
@@ -22,6 +24,9 @@ namespace MessageService.Core.Xmpp
             if (iq.Query.GetType() == typeof(Auth))
             {
                 Auth auth = iq.Query as Auth;
+                string name = (auth.Username);
+                string resource = auth.Resource;
+                var user = new FoxundermoonLib.XmppEx.Data.User(name, resource);
                 switch (iq.Type)
                 {
                     case IqType.get:
@@ -43,30 +48,42 @@ namespace MessageService.Core.Xmpp
                             iq.Query = null;
                             try
                             {
-                                string uid = (auth.Username);
+                              
+                                Dictionary<string, XmppSeverConnection> cons = null;
                                 //Func<int,XmppSeverConnection,XmppSeverConnection> update = (k,v)=>{return v;};
                                 //XmppConnectionDic.AddOrUpdate(uid, contextConnection),(k,v)=>{return v;});
-
-                                if (XmppConnectionDic.ContainsKey(uid))
+                                var hasCons = XmppConnectionDic.TryGetValue(name, out cons);
+                                if (hasCons)
                                 {
-                                    FoxundermoonLib.XmppEx.Data.Message offLine = new FoxundermoonLib.XmppEx.Data.Message();
-                                    offLine.ToUser = uid;
-                                    offLine.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.OnLineAtOtherPlace;
-
-                                    XmppSeverConnection _;
-                                    if (XmppConnectionDic.TryRemove(uid, out _))
+                                    XmppSeverConnection con = null;
+                                    var hasCon = cons.TryGetValue(resource, out con);
+                                    if (hasCon)
                                     {
-                                        UniCast(_, offLine);
-                                        Console.WriteLine(uid + " 重新登录");
+                                        cons.Remove(resource);
+                                        Console.WriteLine(name + " 重新登录");
+                                        try
+                                        {
+                                            //con.Stop();
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Console.WriteLine("exception@IqHandle.stop old connection  :" + e.Message);
+                                        }
                                     }
-                                }
-                                if (XmppConnectionDic.TryAdd(uid, contextConnection))
-                                {
-                                    Console.WriteLine(auth.Username + ": 账号验证成功,并加入连接池！");
+
                                 }
 
-                                UserOnline(uid);
-                                contextConnection.UserName = uid;
+                                if (!hasCons)
+                                {
+                                    cons = new Dictionary<string, XmppSeverConnection>();
+                                    if(XmppConnectionDic.TryAdd(name, cons))
+                                        Console.WriteLine(auth.Username + ": 账号验证成功,并加入连接池！");
+                                    else
+                                        Console.WriteLine(auth.Username + ": 账号验证成功,但是加入连接池失败！");
+                                }
+                                    cons.Add(resource,contextConnection);
+                                    contextConnection.User = user;
+                                UserOnline(user);
                             }
                             catch (Exception e)
                             {
@@ -84,14 +101,22 @@ namespace MessageService.Core.Xmpp
                             FoxundermoonLib.XmppEx.Data.Message loginFailed = new FoxundermoonLib.XmppEx.Data.Message();
                             loginFailed.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.ErrorMessage;
                             loginFailed.AddProperty("Cause", "账号验证失败，请检查用户名或者密码");
-                            loginFailed.ToUser = auth.Username;
+                            loginFailed.ToUser = user;
                             UniCast(loginFailed);
                             //iq.Type = IqType.result;
                             iq.Query = null;
                             iq.Value = "authorized failed";
                             contextConnection.IsAuthentic = false;
                         }
-                        contextConnection.Send(iq);
+                        try
+                        {
+                            contextConnection.Send(iq);
+
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Exception->@IQhandler.processIq:" + e.Message);
+                        }
                         break;
                 }
             }

@@ -52,7 +52,7 @@ namespace agsXMPP
         }
         #endregion
         private StreamParser streamParser;
-        public string UserName { get; set; }
+        public FoxundermoonLib.XmppEx.Data.User User { get; set; }
         private Socket m_Sock;
         private const int BUFFERSIZE = 2048;
         private byte[] buffer = new byte[BUFFERSIZE];
@@ -65,36 +65,51 @@ namespace agsXMPP
             // from the asynchronous state object
 
             // Read data from the client socket. 
-            try
+            if (m_Sock != null && m_Sock.Connected)
             {
-                int bytesRead = m_Sock.EndReceive(ar);
-                if (bytesRead > 0)
-                {
-                    streamParser.Push(buffer, 0, bytesRead);
 
-                    // Not all data received. Get more.
-                    m_Sock.BeginReceive(buffer, 0, BUFFERSIZE, 0, new AsyncCallback(ReadCallback), null);
-                }
-                else
+                try
                 {
-                    m_Sock.Shutdown(SocketShutdown.Both);
-                    m_Sock.Close();
+                    int bytesRead = m_Sock.EndReceive(ar);
+                    if (bytesRead > 0)
+                    {
+                        streamParser.Push(buffer, 0, bytesRead);
+
+                        // Not all data received. Get more.
+                        m_Sock.BeginReceive(buffer, 0, BUFFERSIZE, 0, new AsyncCallback(ReadCallback), null);
+                    }
+                    else
+                    {
+                        m_Sock.Shutdown(SocketShutdown.Both);
+                        m_Sock.Close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("@XmppServerConnection.ReadCallback:" + e.Message);
+                    if (null != User)
+                        xmppServer.UserOffline(User);
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("@XmppServerConnection.ReadCallback:" + e.Message);
-                if (!string.IsNullOrEmpty(UserName))
-                    xmppServer.UserOffline(UserName);
-            }
+
         }
 
         public void Send(string data)
         {
-            // Convert the string data to byte data using ASCII encoding.
-            byte[] byteData = Encoding.UTF8.GetBytes(data);
-            // Begin sending the data to the remote device.
-            m_Sock.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), null);
+            if (m_Sock != null && m_Sock.Connected)
+            {
+                try
+                {
+                    // Convert the string data to byte data using ASCII encoding.
+                    byte[] byteData = Encoding.UTF8.GetBytes(data);
+                    // Begin sending the data to the remote device.
+                    m_Sock.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), null);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("@XmppServerConnection.SendCallback:" + e.Message);
+                }
+            }
         }
         private void SendCallback(IAsyncResult ar)
         {
@@ -115,14 +130,26 @@ namespace agsXMPP
 
         public void Stop()
         {
-            Send("</stream:stream>");
-            //			client.Close();
-            //			_TcpServer.Stop();
+            if (m_Sock != null && m_Sock.Connected)
+            {
 
-            m_Sock.Shutdown(SocketShutdown.Both);
-            m_Sock.Close();
-            if (!string.IsNullOrEmpty(UserName))
-                xmppServer.UserOffline(UserName);
+                try
+                {
+                    if (null != User)
+                        xmppServer.UserOffline(User);
+                    Send("</stream:stream>");
+                    //			client.Close();
+                    //			_TcpServer.Stop();
+
+                    m_Sock.Shutdown(SocketShutdown.Both);
+                    m_Sock.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("exception@ XmppServerConnection.Stop :" + e.Message);
+                }
+            }
         }
 
 
@@ -153,8 +180,8 @@ namespace agsXMPP
         }
         private void streamParser_OnStreamEnd(object sender, Node e)
         {
-            if (!string.IsNullOrEmpty(UserName))
-                xmppServer.UserOffline(UserName);
+            if (null != User)
+                xmppServer.UserOffline(User);
 
         }
 
@@ -183,32 +210,37 @@ namespace agsXMPP
             // Recv:<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='myjabber.net' id='1075705237'>
 
             // Send the Opening Strem to the client
-            string ServerDomain = ConfigurationManager.AppSettings["XmppServer"];
+            if (m_Sock.Connected)
+            {
 
-            this.SessionId = agsXMPP.SessionId.CreateNewId();
+                string ServerDomain = ConfigurationManager.AppSettings["XmppServer"];
+
+                this.SessionId = agsXMPP.SessionId.CreateNewId();
 
 
-            StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-            sb.Append("<stream:stream from='");
-            sb.Append(ServerDomain);
+                sb.Append("<stream:stream from='");
+                sb.Append(ServerDomain);
 
-            sb.Append("' xmlns='");
-            sb.Append(Uri.CLIENT);
+                sb.Append("' xmlns='");
+                sb.Append(Uri.CLIENT);
 
-            sb.Append("' xmlns:stream='");
-            sb.Append(Uri.STREAM);
+                sb.Append("' xmlns:stream='");
+                sb.Append(Uri.STREAM);
 
-            sb.Append("' id='");
-            sb.Append(this.SessionId);
+                sb.Append("' id='");
+                sb.Append(this.SessionId);
 
-            sb.Append("'>");
+                sb.Append("'>");
+                Send(sb.ToString());
+            }
 
-            Send(sb.ToString());
         }
 
         public void Send(Element el)
         {
+
             Send(el.ToString());
         }
 
