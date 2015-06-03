@@ -179,10 +179,10 @@ namespace MessageManager
             xmppMsg.Language = "BASE64";
             xmppMsg.Subject = m.GetJsonCommand();
             xmppMsg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(m.ToJson());
-            if (string.IsNullOrEmpty(m.FromUser))
-                m.FromUser = UserName;
-            if (string.IsNullOrEmpty(m.ToUser))
-                m.ToUser = "0";
+            if (null == m.FromUser|| string.IsNullOrEmpty(m.FromUser.Name))
+                m.FromUser = new User(XmppClient.Name,"server");
+            if (null == m.ToUser ||    string.IsNullOrEmpty(m.ToUser.Name))
+                m.ToUser = new User( "0","server");
 
             xmppMsg.From = new agsXMPP.Jid(m.FromUser + "@" + MessageServerHost + ":" + MessageServerPort);
             xmppMsg.To = new agsXMPP.Jid(m.ToUser + "@" + MessageServerHost + ":" + MessageServerPort);

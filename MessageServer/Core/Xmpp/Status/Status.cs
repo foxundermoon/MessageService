@@ -23,7 +23,6 @@ namespace MessageService.Core.Xmpp
                     var hasCon = cons.TryGetValue(user.Resource, out con);
                     if (hasCon)
                     {
-                        con.Stop();
                         cons.Remove(user.Resource);
                     }
                     var offLine = new FoxundermoonLib.XmppEx.Data.Message();

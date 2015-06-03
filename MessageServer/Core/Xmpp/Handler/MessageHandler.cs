@@ -93,7 +93,7 @@ namespace MessageService.Core.Xmpp
                                 sqlb.Append("`").Append(c.ColumnName).Append("` , ");
                                 sbv.Append("@").Append(c.ColumnName).Append(",");
                             }
-                            sqlb.Remove(sqlb.Length - 2, 2).Append(") VALUES (").Append(sbv.Remove(sbv.Length - 1, 1).Append(")").ToString());
+                            sqlb.Remove(sqlb.Length -2 , 2).Append(") VALUES (").Append(sbv.Remove(sbv.Length - 1, 1).Append(")").ToString());
                             var sql = sqlb.ToString();
                             var count = 0;
                             foreach (DataRow r in message.DataTable.Rows)
@@ -380,10 +380,10 @@ namespace MessageService.Core.Xmpp
             var sbin = new StringBuilder();
             foreach (DataRow r in message.DataTable.Rows)
             {
-                sbin.Append(r["LID"]).Append(", ");
+                sbin.Append(r["LID"]).Append(",");
             }
             sbin.Remove(sbin.Length - 1, 1);
-            string retSql = string.Format("select `ID`,`LID` from {0} where `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
+            string retSql = string.Format("select `ID`,`LID` from `{0}` where `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
             string delSql = string.Format("DELETE FROM `{0}` WHERE `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
             var retTable = MysqlHelper.ExecuteDataTable(retSql);
             if (retTable != null && retTable.Rows.Count > 0)

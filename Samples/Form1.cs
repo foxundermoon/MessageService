@@ -115,14 +115,14 @@ namespace Samples
             row["name"] = "hello world";
             dt.Rows.Add(row);
             FoxundermoonLib.XmppEx.Data.Message m = new FoxundermoonLib.XmppEx.Data.Message();  //新建一条消息
-            m.ToUser = "user2";    // 发送给谁?  ,不设置就发送给服务器.
+            m.ToUser = new FoxundermoonLib.XmppEx.Data.User("user2","server");    // 发送给谁?  ,不设置就发送给服务器.
             //m.FromUser = ""  //设置发送者,如果不设置,会用  UserName
             m.Command.Operation = "test";   //以下为 设置command ,可以间接操作客户端数据库
             m.Command.Name = "sendTask";  //....
             m.Command.Condition = "";
             m.Command.NeedResponse = true;
             m.Command.NeedBroadcast = true;
-            m.ToUser = "user1";
+            m.ToUser =new FoxundermoonLib.XmppEx.Data.User( "user1","winform");
             //.....command 还有别的可以设置
             m.AddProperty("key", "some values ");   //发送字符信息给用户
             m.AddProperty("key2", "other values ");   //字符信息不限制数量,用不同的key
