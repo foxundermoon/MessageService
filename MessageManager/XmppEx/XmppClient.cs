@@ -157,6 +157,7 @@ namespace XmppEx
                 throw new ClientException("Password is empty!");
             XmppConnection = new XmppClientConnection(LocalJid.Server);
             XmppConnection.OnLogin += new ObjectHandler(XmppClient_OnLogin);
+            XmppConnection.Port = ServerPort;
             XmppConnection.OnMessage += new MessageHandler(XmppConnection_OnMessage);
             XmppConnection.OnPresence += new PresenceHandler(XmppConnection_OnPresence);
             XmppConnection.OnIq += new IqHandler(XmppConnecion_OnIQ);
@@ -229,6 +230,8 @@ namespace XmppEx
             if (OnMessage != null)
                 OnMessage(sender, msg);
         }
+
+        public  int ServerPort { get; set; }
     }
     public struct DataHolder
     {

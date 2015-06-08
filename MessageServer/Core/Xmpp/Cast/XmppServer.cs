@@ -27,7 +27,7 @@ namespace MessageService.Core.Xmpp
             if (null != message.FromUser)
                 msg.From = getJidFromUser(message.FromUser);
             else
-                msg.From = getJidFromUser(new FoxundermoonLib.XmppEx.Data.User("0","server"));
+                msg.From = getJidFromUser(new FoxundermoonLib.XmppEx.Data.User("0", "server"));
             msg.Body = FoxundermoonLib.Encrypt.EncryptUtil.EncryptBASE64ByGzip(message.ToJson());
             msg.Subject = message.GetJsonCommand();
             msg.Language = "BASE64";
@@ -64,9 +64,9 @@ namespace MessageService.Core.Xmpp
 
             foreach (var cons in XmppConnectionDic)
             {
-                XmppSeverConnection  con=null;
+                XmppSeverConnection con = null;
                 var hasCon = cons.Value.TryGetValue(resource, out con);
-                if(hasCon)
+                if (hasCon)
                 {
 
                     Jid to = new Jid(cons.Key + "@" + Config.ServerIp + "/" + resource);
@@ -86,18 +86,30 @@ namespace MessageService.Core.Xmpp
         public void UniCast(FoxundermoonLib.XmppEx.Data.Message message)
         {
             if (null == message.ToUser || string.IsNullOrEmpty(message.ToUser.Name))
-                throw new Exception("not set ToUser in the message");
+                Console.WriteLine("not set ToUser in the message");
             if (string.IsNullOrEmpty(message.ToUser.Resource))
-                throw new Exception("not set Resource");
+                Console.WriteLine("not set Resource");
+            //throw new Exception("not set Resource");
             ConcurrentDictionary<string, XmppSeverConnection> cons = null;
             var hasCons = XmppConnectionDic.TryGetValue(message.ToUser.Name, out cons);
             if (!hasCons)
-                throw new Exception("the user are not online");
-            XmppSeverConnection con = null;
-            var hasCon = cons.TryGetValue(message.ToUser.Resource, out con);
-            if (!hasCon)
-                throw new Exception("the user of the resource are not onling");
-            UniCast(con, message);
+            {
+                var tmp = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("the user are not online");
+
+            }
+            else
+            {
+
+                XmppSeverConnection con = null;
+                var hasCon = cons.TryGetValue(message.ToUser.Resource, out con);
+                if (!hasCon)
+                    Console.WriteLine("the user of the resource are not onling");
+                else
+                    UniCast(con, message);
+            }
+
         }
         public void UniCast(XmppSeverConnection contexCon, FoxundermoonLib.XmppEx.Data.Message message)
         {

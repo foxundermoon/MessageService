@@ -24,8 +24,8 @@ namespace Samples
             var manager = MessageManager.MessageManager.Instance;  //获取 MessageManager实例
             manager.UserName = "user2";  //设置登录用户名
             manager.UserPassword = "222";  //登录用户的密码
-            manager.MessageServerHost = "10.80.5.222";  //消息服务的主机名
-            manager.MessageServerPort = 5222;  //消息服务的端口 默认为5222  一般不需要设置
+            manager.MessageServerHost = "10.80.4.8";  //消息服务的主机名
+            manager.MessageServerPort = 7777;  //消息服务的端口 默认为5222  一般不需要设置
             manager.OnLogin += manager_OnLogin; // 注册登录事件,登陆成功后会回调
             manager.OnError += manager_OnError; //注册错误事件
             manager.OnMessage += manager_OnMessage;  //注册接收 message 事件

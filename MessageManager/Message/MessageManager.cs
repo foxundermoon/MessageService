@@ -70,6 +70,7 @@ namespace MessageManager
             XmppClient = XmppEx.XmppClient.GetInstance();
             XmppClient.Name = UserName;
             XmppClient.Password = UserPassword;
+            XmppClient.ServerPort = MessageServerPort;
             var server = new agsXMPP.Jid("0@" + MessageServerHost + "/"+Resource);
             XmppClient.ServerJid = server;
             XmppClient.LocalJid = new agsXMPP.Jid(UserName + "@" + MessageServerHost + "/"+Resource);
