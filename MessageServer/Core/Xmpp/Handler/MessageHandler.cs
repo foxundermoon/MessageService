@@ -84,18 +84,24 @@ namespace MessageService.Core.Xmpp
                         #region insert
                         if (message.Command.Operation == "insert")
                         {
+                            bool hasLID = false;
+                            foreach (DataColumn dc in message.DataTable.DataColumns)
+                            {
+                                if ("LID".Equals(dc.ColumnName))
+                                    hasLID = true;
+                            }
                             try
                             {
                                 sqlb.Append("INSERT INTO ");
                                 if (!string.IsNullOrEmpty(message.DataTable.Database))
                                 {
-                                    sqlb.Append("`").Append(message.DataTable.Database).Append("`.");
+                                    sqlb.Append(message.DataTable.Database).Append(".");
                                 }
-                                sqlb.Append("`").Append(message.DataTable.TableName).Append("`(");
+                                sqlb.Append(message.DataTable.TableName).Append("(");
                                 var sbv = new StringBuilder();
                                 foreach (FoxundermoonLib.XmppEx.Data.Column c in message.DataTable.DataColumns)
                                 {
-                                    sqlb.Append("`").Append(c.ColumnName).Append("` , ");
+                                    sqlb.Append("").Append(c.ColumnName).Append(" , ");
                                     sbv.Append("@").Append(c.ColumnName).Append(",");
                                 }
                                 sqlb.Remove(sqlb.Length - 2, 2).Append(") VALUES (").Append(sbv.Remove(sbv.Length - 1, 1).Append(")").ToString());
@@ -112,7 +118,10 @@ namespace MessageService.Core.Xmpp
                                     count += MysqlHelper.ExecuteNonQuery(sql, ps);
                                 }
                                 message.AddProperty("Count", count.ToString());
-                                wrapReturnTable(message);  //返回ID  LID 对应表
+                                if (hasLID)
+                                {
+                                    wrapReturnTable(message);  //返回ID  LID 对应表
+                                }
 
                             }
                             catch (Exception e)
@@ -406,7 +415,7 @@ namespace MessageService.Core.Xmpp
                 message.AddProperty("error", "server error@MessageHandler Datatable outer ");
                 message.AddProperty("errorMessage", e.Message);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("server error@MessageHandler Datatable outer "+e.Message);
+                Console.WriteLine("server error@MessageHandler Datatable outer " + e.Message);
                 try
                 {
                     UniCast(contextConnection, message);
@@ -414,8 +423,8 @@ namespace MessageService.Core.Xmpp
                 catch { }
             }
         }
-            #endregion
-        
+                #endregion
+
 
         private static void wrapReturnTable(FoxundermoonLib.XmppEx.Data.Message message)
         {
@@ -426,7 +435,7 @@ namespace MessageService.Core.Xmpp
             }
             sbin.Remove(sbin.Length - 1, 1);
             string retSql = string.Format("select `ID`,`LID` from `{0}` where `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
-            string delSql = string.Format("DELETE FROM `{0}` WHERE `LID` in ({1})", message.DataTable.TableName, sbin.ToString());
+            string delSql = string.Format("UPDATE `{0}`.`{1}` SET `LID`=-1  WHERE `LID` in ({2})",message.DataTable.Database, message.DataTable.TableName, sbin.ToString());
             var retTable = MysqlHelper.ExecuteDataTable(retSql);
             if (retTable != null && retTable.Rows.Count > 0)
             {
