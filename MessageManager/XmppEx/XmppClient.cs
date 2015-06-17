@@ -42,6 +42,7 @@ namespace XmppEx
         }
         static private object locked = new object();
         public DataHolder holder = new DataHolder();
+        public string ServerResource { get; set; }
         private XmppClient()
         {
             pinginterval = 20; //int.Parse(System.Configuration.ConfigurationManager.AppSettings["pinginterval"].ToString());
@@ -163,7 +164,7 @@ namespace XmppEx
             XmppConnection.OnIq += new IqHandler(XmppConnecion_OnIQ);
             XmppConnection.OnError += XmppConnection_OnError;
             //new ErrorHandler(XmppConnection_OnError);
-            XmppConnection.Open(LocalJid.User, Password);
+            XmppConnection.Open(LocalJid.User, Password,ServerResource);
         }
 
         void XmppConnection_OnError(object sender, Exception ex)

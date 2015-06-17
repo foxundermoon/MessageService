@@ -21,6 +21,7 @@ namespace MessageService.Core.Xmpp
         /// 广播
         /// </summary>
         /// <param name="strMsg">广播的消息</param>
+        /// 
         public void Broadcast(FoxundermoonLib.XmppEx.Data.Message message)
         {
             Message msg = new Message();
@@ -135,6 +136,36 @@ namespace MessageService.Core.Xmpp
             }
         }
 
+
+        public void SmartBroadCast(FoxundermoonLib.XmppEx.Data.Message msg)
+        {
+            try
+            {
+                if (msg.Command.NeedBroadcast)
+                {
+
+                    if ("*".Equals(msg.ToUser.Name))
+                    {
+                        if ("*".Equals(msg.ToUser.Resource))
+                        {
+                            Broadcast(msg);
+                        }
+                        else
+                        {
+                            Broadcast2resource(msg,msg.ToUser.Resource);
+                        }
+                    }
+                }
+                else
+                {
+                    UniCast(msg);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
         public Jid getJidFromUser(FoxundermoonLib.XmppEx.Data.User u)
         {
             return new Jid(u.Name + "@" + Config.ServerIp + "/" + u.Resource);

@@ -64,9 +64,9 @@ namespace MessageService.Core.Xmpp
 
             message.SetJsonMessage(content);
             message.SetJsonCommand(command);
-            if (null != message.ToUser && message.ToUser.Name != "0")
+            if (null != message.ToUser )
             {
-                UniCast(message);
+                SmartBroadCast(message);
             }
             #endregion
             Console.WriteLine(message.ToJson(true));

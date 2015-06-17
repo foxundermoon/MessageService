@@ -22,10 +22,11 @@ namespace Samples
         private void button1_Click(object sender, EventArgs e)
         {
             var manager = MessageManager.MessageManager.Instance;  //获取 MessageManager实例
-            manager.UserName = "user2";  //设置登录用户名
-            manager.UserPassword = "222";  //登录用户的密码
-            manager.MessageServerHost = "10.80.4.8";  //消息服务的主机名
-            manager.MessageServerPort = 7777;  //消息服务的端口 默认为5222  一般不需要设置
+            manager.UserName = textBox2.Text;// "user2";  //设置登录用户名
+            manager.UserPassword = textBox3.Text;// "222";  //登录用户的密码
+            manager.Resource = textBox11.Text;
+            manager.MessageServerHost = textBox4.Text;// "10.80.4.8";  //消息服务的主机名
+            manager.MessageServerPort = Convert.ToInt32(textBox5.Text);// 7777;  //消息服务的端口 默认为5222  一般不需要设置
             manager.OnLogin += manager_OnLogin; // 注册登录事件,登陆成功后会回调
             manager.OnError += manager_OnError; //注册错误事件
             manager.OnMessage += manager_OnMessage;  //注册接收 message 事件
@@ -107,6 +108,7 @@ namespace Samples
 
         private void button2_Click(object sender, EventArgs e)
         {
+
             DataTable dt = new DataTable();  //模拟数据表,使用的时候可以从数据库查询获得或者自己生成,用的内置 DataTable
             dt.Columns.Add("id");
             dt.Columns.Add("name");
@@ -115,18 +117,19 @@ namespace Samples
             row["name"] = "hello world";
             dt.Rows.Add(row);
             FoxundermoonLib.XmppEx.Data.Message m = new FoxundermoonLib.XmppEx.Data.Message();  //新建一条消息
-            m.ToUser = new FoxundermoonLib.XmppEx.Data.User("user2","server");    // 发送给谁?  ,不设置就发送给服务器.
+            m.FromUser = new FoxundermoonLib.XmppEx.Data.User(textBox2.Text,textBox11.Text);   
             //m.FromUser = ""  //设置发送者,如果不设置,会用  UserName
             m.Command.Operation = "test";   //以下为 设置command ,可以间接操作客户端数据库
             m.Command.Name = "sendTask";  //....
             m.Command.Condition = "";
-            m.Command.NeedResponse = true;
-            m.Command.NeedBroadcast = true;
-            m.ToUser =new FoxundermoonLib.XmppEx.Data.User( "user1","winform");
+            m.Command.NeedResponse = checkBox1.Checked;
+            m.Command.NeedBroadcast = checkBox2.Checked;
+            m.ToUser =new FoxundermoonLib.XmppEx.Data.User( textBox6.Text,textBox7.Text);
             //.....command 还有别的可以设置
-            m.AddProperty("key", "some values ");   //发送字符信息给用户
-            m.AddProperty("key2", "other values ");   //字符信息不限制数量,用不同的key
-            m.setDataTable(dt);   //发送数据表给用户
+            m.AddProperty(textBox8.Text,textBox9.Text);   //发送字符信息给用户
+            m.setDataTable(dt);
+            m.AddProperty("Content", textBox10.Text);
+            //发送数据表给用户
             MessageManager.MessageManager.Instance.SendMessage(m); //发送
         }
 
@@ -143,5 +146,9 @@ namespace Samples
             message.Command.Name = FoxundermoonLib.XmppEx.Command.Cmd.GetOnlineUsers;
             MessageManager.MessageManager.Instance.SendMessage(message);
         }
+
+     
+
+       
     }
 }

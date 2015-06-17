@@ -73,6 +73,7 @@ namespace MessageManager
             XmppClient.ServerPort = MessageServerPort;
             var server = new agsXMPP.Jid("0@" + MessageServerHost + "/"+Resource);
             XmppClient.ServerJid = server;
+            XmppClient.ServerResource = Resource;
             XmppClient.LocalJid = new agsXMPP.Jid(UserName + "@" + MessageServerHost + "/"+Resource);
             regXmppEvent();
             try
