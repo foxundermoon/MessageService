@@ -404,6 +404,7 @@ namespace MessageService.Core.Xmpp
                     finally
                     {
                         message.Command.Name = Cmd.GetOnlineUsersResponse;
+                        message.SwitchDirection();
                         UniCast(contextConnection, message);
                     }
 
