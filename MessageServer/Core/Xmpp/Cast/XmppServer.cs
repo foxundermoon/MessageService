@@ -98,6 +98,7 @@ namespace MessageService.Core.Xmpp
                 var tmp = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("the user are not online");
+                Console.ForegroundColor = tmp;
 
             }
             else
