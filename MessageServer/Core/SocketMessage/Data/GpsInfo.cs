@@ -1,20 +1,12 @@
-﻿using SuperSocket.SocketBase.Protocol;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageService.Core.GpsDevice
+namespace MessageService.Core.SocketMessage.Data
 {
-    class GpsRequestInfo : IRequestInfo
-    {
-        public string Key{get;set;}
-        public GPSInfo GpsInfomation { get; set; }
-        public string OriginBody { get; set; }
-
-    }
-    public class GPSInfo
+    public class GpsInfo
     {
         public string ID { get; set; }
         public double Lat { get; set; }
@@ -27,11 +19,11 @@ namespace MessageService.Core.GpsDevice
 
         public double DisMove { get; set; }
         public DateTime StandardTime { get; set; }
-        public GPSInfo()
+        public GpsInfo()
         {
             this.DisMove = -1;
         }
-        public GPSInfo(GPSInfo p)
+        public GpsInfo(GpsInfo p)
         {
             this.ID = p.ID;
             this.Lat = p.Lat;
@@ -44,6 +36,5 @@ namespace MessageService.Core.GpsDevice
             this.DisMove = p.DisMove;
             this.StandardTime = p.StandardTime;
         }
-
     }
 }

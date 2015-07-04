@@ -10,7 +10,7 @@
   <Class Name="MessageService.Program" Collapsed="true">
     <Position X="2.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAABAAAAAA=</HashCode>
       <FileName>App_Start\Program.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -53,13 +53,13 @@
     <Position X="4" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AMAACAAAAAAAACAAAAACAAhgAAAAAAIAAAEAAAQAAAI=</HashCode>
-      <FileName>Core\Config\Config.cs</FileName>
+      <FileName>Config\Config.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MessageService.Core.Xmpp.XmppServer" Collapsed="true">
     <Position X="4" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAABGAAQiCIAEQggEAAAAAIBYFgIECBRACEAAAAgAA=</HashCode>
+      <HashCode>BAAABGAAQiCoAEQggEAAAAAIBYFgIGCBRACEAAAAgAA=</HashCode>
       <FileName>Core\Xmpp\Cast\XmppServer.cs</FileName>
     </TypeIdentifier>
   </Class>

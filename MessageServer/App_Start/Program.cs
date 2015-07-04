@@ -12,7 +12,8 @@ namespace MessageService {
             XmppLauncher.Launch();
             //XmppServer.GetInstance().StartUp();
             //HttpApiLauncher.Launch();
-            GpsDeviceServiceLauncher.Launch();
+            //SocketServiceLauncher.Launch();
+            SocketServiceLauncher.Bootstrap();
             Console.WriteLine("all done....");
        }
         public static void Exit()
@@ -22,6 +23,7 @@ namespace MessageService {
         public static void Exit(String msg)
         {
             Console.WriteLine(msg);
+            Console.WriteLine("请按任意键退出！");
             Console.ReadKey();
             Exit();
         } 

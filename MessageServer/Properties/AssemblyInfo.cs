@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MessageServer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MessageService")]
+[assembly: AssemblyDescription("the message service ,xmpp ,xupersocket and http")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MessageServer")]
-[assembly: AssemblyCopyright("版权所有(C)  2014")]
+[assembly: AssemblyProduct("MessageService")]
+[assembly: AssemblyCopyright("版权所有(C) jnsw 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
