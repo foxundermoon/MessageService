@@ -43,14 +43,14 @@ namespace MessageService.Core.Xmpp {
         }
         private void initConfig( ) {
             Config = new ServerConfig();
-            Config.FileCollection = ConfigurationManager.AppSettings["FileCollection"].ToString();
-            Config.FileServer = ConfigurationManager.AppSettings["FileServer"].ToString();
-            Config.FileServerPort =int.Parse(ConfigurationManager.AppSettings["FileServerPort"].ToString());
-            Config.LogLevel=int.Parse(ConfigurationManager.AppSettings["FileServerPort"].ToString());
-            Config.MessageCollection=  ConfigurationManager.AppSettings["MessageCollection"].ToString();
-            Config.MongoDatabase=  ConfigurationManager.AppSettings["MongoDatabase"].ToString();
-            Config.MongoServer=  ConfigurationManager.AppSettings["MongoServer"].ToString();
-            Config.UserCollection= ConfigurationManager.AppSettings["UserCollection"].ToString();
+            //Config.FileCollection = ConfigurationManager.AppSettings["FileCollection"].ToString();
+            //Config.FileServer = ConfigurationManager.AppSettings["FileServer"].ToString();
+            //Config.FileServerPort =int.Parse(ConfigurationManager.AppSettings["FileServerPort"].ToString());
+            //Config.LogLevel=int.Parse(ConfigurationManager.AppSettings["FileServerPort"].ToString());
+            //Config.MessageCollection=  ConfigurationManager.AppSettings["MessageCollection"].ToString();
+            //Config.MongoDatabase=  ConfigurationManager.AppSettings["MongoDatabase"].ToString();
+            //Config.MongoServer=  ConfigurationManager.AppSettings["MongoServer"].ToString();
+            //Config.UserCollection= ConfigurationManager.AppSettings["UserCollection"].ToString();
             Config.XmppPort =int.Parse(ConfigurationManager.AppSettings["XmppServerPort"].ToString());
             Config.ServerResource = ConfigurationManager.AppSettings["ServerResource"].ToString();
             Config.ServerIp=  ConfigurationManager.AppSettings["ServerIp"].ToString();

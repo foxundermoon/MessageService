@@ -25,7 +25,7 @@ namespace MessageService.Core.SocketMessage.Command
         }
         public override void ExecuteCommand(SocketSession session, SocketRequestInfo requestInfo)
         {
-            Console.WriteLine("RFID requestInfo  key:" + requestInfo.Key + "  originBody:" + requestInfo.OriginBody + " targetBody:" + requestInfo.TargetBody);
+            //Console.WriteLine("RFID requestInfo  key:" + requestInfo.Key + "  originBody:" + requestInfo.OriginBody + " targetBody:" + requestInfo.TargetBody);
             var strCarID = session.CarID;
             if (string.IsNullOrEmpty(strCarID))
                 session.CarID = "未知";

@@ -29,7 +29,7 @@ namespace MessageService.Core.SocketMessage
         }
         public override void ExecuteCommand(SocketSession session, SocketRequestInfo requestInfo)
         {
-            Console.WriteLine("receive @ GPS command :  key: " + requestInfo.Key + "  body:" + requestInfo.OriginBody);
+            //Console.WriteLine("receive @ GPS command :  key: " + requestInfo.Key + "  body:" + requestInfo.OriginBody);
             gpsLoger.Info("origin body--->" + requestInfo.OriginBody);
             gpsLoger.Info("target body--->" + requestInfo.TargetBody);
             //throw new NotImplementedException();

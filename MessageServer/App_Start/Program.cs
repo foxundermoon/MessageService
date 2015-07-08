@@ -9,11 +9,11 @@ namespace MessageService {
         [STAThread]
        public static void Main( string[] args ) {
            //AlterTables.AddOneCoulmn();
-            XmppLauncher.Launch();
+           XmppLauncher.Launch();
             //XmppServer.GetInstance().StartUp();
             //HttpApiLauncher.Launch();
             //SocketServiceLauncher.Launch();
-            SocketServiceLauncher.Bootstrap();
+           SocketServiceLauncher.Bootstrap();
             Console.WriteLine("all done....");
        }
         public static void Exit()

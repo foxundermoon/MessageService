@@ -18,7 +18,7 @@ namespace MessageService.Core.SocketMessage
             var rt = new SocketRequestInfo();
             const string GpsSep = "$GPSLOC";
             rt.OriginBody = source;
-            Console.WriteLine("origin----->" + source);
+            //Console.WriteLine("origin----->" + source);
             if (source.Length > 0)  //has content
             {
                 int iPos = source.IndexOf(GpsSep);
