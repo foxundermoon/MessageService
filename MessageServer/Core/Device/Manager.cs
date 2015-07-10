@@ -579,7 +579,8 @@ namespace MessageService.Core.Device
             }
             String strGD = strValues[3]; //高度
             String strTime = strValues[4];//时间
-            System.DateTime tm;
+            System.DateTime tm ;
+            try
             {
                 string strY = strTime.Substring(0, 4);
                 string strM = strTime.Substring(4, 2);
@@ -593,6 +594,11 @@ namespace MessageService.Core.Device
                 tm = new DateTime(Convert.ToInt32(strY), Convert.ToInt32(strM), Convert.ToInt32(strD), Convert.ToInt32(strH), Convert.ToInt32(strMinute), Convert.ToInt32(strsecond), DateTimeKind.Utc);
                 System.DateTime tnew = tm.ToLocalTime();
                 strTime = tnew.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            catch (Exception fe)
+            {
+                session.AppServer.Logger.Error("date format exception :" + fe.Message + fe.StackTrace);
+                return;
             }
             string strWXNum = strValues[6];//卫星个数
             string strSpeed = strValues[7];
