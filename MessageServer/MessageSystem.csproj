@@ -179,8 +179,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
     <ProjectReference Include="..\..\..\..\study\c#\SuperSocket\supersocket\Common\SuperSocket.Common.Net40.csproj">
       <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
       <Name>SuperSocket.Common.Net40</Name>
@@ -193,7 +191,6 @@
       <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
       <Name>SuperSocket.SocketEngine.Net40</Name>
     </ProjectReference>
->>>>>>> fixbug
     <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
       <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
       <Name>agsXMPP2010</Name>
