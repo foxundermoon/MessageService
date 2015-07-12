@@ -123,7 +123,7 @@ namespace MessageService.Core.Xmpp
                                 message.AddProperty("Count", count.ToString());
                                 if (hasLID)
                                 {
-                                    wrapReturnTable(message,dbt);  //返回ID  LID 对应表
+                                    wrapReturnTable(message, dbt);  //返回ID  LID 对应表
                                 }
 
                             }
@@ -215,6 +215,7 @@ namespace MessageService.Core.Xmpp
                                         ps[i] = new MySqlParameter(message.DataTable.DataColumns[i].ColumnName, r.ItemArray[i]);
                                     }
                                     count += MysqlHelper.ExecuteNonQuery(sql, ps);
+
                                 }
                                 message.AddProperty("Count", count.ToString());
                             }
@@ -373,7 +374,7 @@ namespace MessageService.Core.Xmpp
                     }
                     #endregion
                 }
-                else if (dbt==databaseType.Sql)
+                else if (dbt == databaseType.Sql)
                 {
                     #region 有数据表操作
                     if (message.DataTable != null && message.DataTable.Rows.Count > 0)
@@ -418,7 +419,7 @@ namespace MessageService.Core.Xmpp
                                 message.AddProperty("Count", count.ToString());
                                 if (hasLID)
                                 {
-                                    wrapReturnTable(message,dbt);  //返回ID  LID 对应表
+                                    wrapReturnTable(message, dbt);  //返回ID  LID 对应表
                                 }
 
                             }
@@ -650,7 +651,7 @@ namespace MessageService.Core.Xmpp
                     {
                         try
                         {
-                            DataTable dt = SqlHelper.ExecuteDataTable(message.Command.Sql,null);
+                            DataTable dt = SqlHelper.ExecuteDataTable(message.Command.Sql, null);
                             message.setDataTable(dt);
                         }
                         catch (Exception e)
@@ -726,7 +727,7 @@ namespace MessageService.Core.Xmpp
                 #endregion
 
 
-        private static void wrapReturnTable(FoxundermoonLib.XmppEx.Data.Message message,databaseType dbType)
+        private static void wrapReturnTable(FoxundermoonLib.XmppEx.Data.Message message, databaseType dbType)
         {
             databaseType dbt = dbType;
 
@@ -742,7 +743,7 @@ namespace MessageService.Core.Xmpp
             if (dbt == databaseType.MySql)
                 retTable = MysqlHelper.ExecuteDataTable(retSql);
             else if (dbt == databaseType.Sql)
-                retTable = SqlHelper.ExecuteDataTable(retSql,null);
+                retTable = SqlHelper.ExecuteDataTable(retSql, null);
             if (retTable != null && retTable.Rows.Count > 0)
             {
                 message.setDataTable(retTable);
@@ -751,7 +752,7 @@ namespace MessageService.Core.Xmpp
                 else if (dbt == databaseType.Sql)
                     SqlHelper.ExecuteNonQuery(delSql);
 
-            
+
             }
             else
             {
