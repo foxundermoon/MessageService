@@ -13,7 +13,7 @@ namespace MessageService {
             //XmppServer.GetInstance().StartUp();
             //HttpApiLauncher.Launch();
             //SocketServiceLauncher.Launch();
-           SocketServiceLauncher.Bootstrap();
+           //SocketServiceLauncher.Bootstrap();
             Console.WriteLine("all done....");
        }
         public static void Exit()
