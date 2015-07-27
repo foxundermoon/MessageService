@@ -5,3 +5,7 @@
 [submodule "lib/myDotNetLib"]
 	path = lib/myDotNetLib
 	url = http://foxundermoon:git232381204@github.com/foxundermoon/myDotNetLib
+[submodule "lib/SuperSocket"]
+	path = lib/SuperSocket
+	url = http://swgit.vvfox.com/public/SuperSocket
+	branch = v1.6

@@ -27,6 +27,8 @@ namespace MessageService.Core.Xmpp
                 Auth auth = iq.Query as Auth;
                 string name = (auth.Username);
                 string resource = auth.Resource;
+                if (resource == null)
+                    resource = "";
                 var user = new FoxundermoonLib.XmppEx.Data.User(name, resource);
                 switch (iq.Type)
                 {
@@ -82,6 +84,7 @@ namespace MessageService.Core.Xmpp
                                     else
                                         Console.WriteLine(auth.Username + ": 账号验证成功,但是加入连接池失败！");
                                 }
+                               
                                     cons.TryAdd(resource,contextConnection);
                                     contextConnection.User = user;
                                 UserOnline(user);

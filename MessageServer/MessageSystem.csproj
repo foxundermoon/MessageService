@@ -179,18 +179,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\study\c#\SuperSocket\supersocket\Common\SuperSocket.Common.Net40.csproj">
-      <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
-      <Name>SuperSocket.Common.Net40</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\study\c#\SuperSocket\supersocket\SocketBase\SuperSocket.SocketBase.Net40.csproj">
-      <Project>{40b77789-ea11-4c05-8f52-86711d7bcaaf}</Project>
-      <Name>SuperSocket.SocketBase.Net40</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\study\c#\SuperSocket\supersocket\SocketEngine\SuperSocket.SocketEngine.Net40.csproj">
-      <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
-      <Name>SuperSocket.SocketEngine.Net40</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
       <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
       <Name>agsXMPP2010</Name>
@@ -198,6 +186,18 @@
     <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
       <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
       <Name>myDotNetLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SuperSocket\Common\SuperSocket.Common.Net45.csproj">
+      <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
+      <Name>SuperSocket.Common.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SuperSocket\SocketBase\SuperSocket.SocketBase.Net45.csproj">
+      <Project>{40b77789-ea11-4c05-8f52-86711d7bcaaf}</Project>
+      <Name>SuperSocket.SocketBase.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SuperSocket\SocketEngine\SuperSocket.SocketEngine.Net45.csproj">
+      <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
+      <Name>SuperSocket.SocketEngine.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
