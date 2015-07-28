@@ -14,9 +14,7 @@ namespace MessageService
     {
         public static void Launch()
         {
-
             string baseAddress = "http://localhost:9000/";
-
             // Start OWIN host 
             Console.WriteLine("Starting webApi service ......");
             WebApp.Start<HttpApiLauncher>(url: baseAddress);
@@ -25,7 +23,7 @@ namespace MessageService
         }
 
 
-        public  void Configuration(IAppBuilder appBuilder)
+        public void Configuration(IAppBuilder appBuilder)
         {
             // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
@@ -35,9 +33,9 @@ namespace MessageService
                 defaults: new { id = RouteParameter.Optional }
             );
             config.Routes.MapHttpRoute(
-                name :"by action",
+                name: "by action",
                 routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id= RouteParameter.Optional}
+                defaults: new { id = RouteParameter.Optional }
                 );
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());

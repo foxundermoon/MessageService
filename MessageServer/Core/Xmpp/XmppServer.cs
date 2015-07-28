@@ -53,7 +53,7 @@ namespace MessageService.Core.Xmpp {
             //Config.UserCollection= ConfigurationManager.AppSettings["UserCollection"].ToString();
             Config.XmppPort =int.Parse(ConfigurationManager.AppSettings["XmppServerPort"].ToString());
             Config.ServerResource = ConfigurationManager.AppSettings["ServerResource"].ToString();
-            Config.ServerIp=  ConfigurationManager.AppSettings["ServerIp"].ToString();
+            //Config.ServerIp=  ConfigurationManager.AppSettings["ServerIp"].ToString();
             Config.ServerUid=int.Parse(ConfigurationManager.AppSettings["ServerUid"].ToString());
             //ConfigurationManager.AppSettings["ServerResource"].ToString();
             //ConfigurationManager.AppSettings["ServerResource"].ToString();

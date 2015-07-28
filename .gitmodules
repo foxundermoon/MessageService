@@ -1,11 +1,11 @@
 [submodule "lib/agsXmpp"]
 	path = lib/agsXmpp
-	url = http://github.com/foxundermoon/agsXmpp
+	url = http://public:232381204@swgit.vvfox.com/public/agsXmpp
  
 [submodule "lib/myDotNetLib"]
 	path = lib/myDotNetLib
-	url = http://foxundermoon:git232381204@github.com/foxundermoon/myDotNetLib
+    url  = http://foxundermoon:232381204@swgit.vvfox.com/foxundermoon/MyDotnetLib
 [submodule "lib/SuperSocket"]
 	path = lib/SuperSocket
-	url = http://swgit.vvfox.com/public/SuperSocket
+	url = http://foxundermoon:232381204@swgit.vvfox.com/public/SuperSocket
 	branch = v1.6
