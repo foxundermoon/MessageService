@@ -251,6 +251,8 @@ namespace MessageService.Core.Xmpp
                                 {
                                     message.Command.Name = Cmd.ErrorMessage;
                                     message.AddProperty("Message", "查询必须填写表名或者直接填写sql语句");
+                                    message.AddProperty("error", "client error");
+                                    message.AddProperty("errorMessage", "查询必须填写表名或者直接填写sql语句");
                                     message.SwitchDirection();
                                     UniCast(contextConnection, message);
                                     flag = false;
@@ -299,8 +301,8 @@ namespace MessageService.Core.Xmpp
                                                 appd = null;
                                             }
                                         }
-                                        message.setDataTable(dt);
                                     }
+                                    message.setDataTable(dt);
                                 }
                             }
                             catch (Exception e)

@@ -33,7 +33,14 @@ namespace MessageService.Core.SocketMessage
             gpsLoger.Info("origin body--->" + requestInfo.OriginBody);
             gpsLoger.Info("target body--->" + requestInfo.TargetBody);
             //throw new NotImplementedException();
-            manager.AddRecord(session, requestInfo);
+            try
+            {
+                manager.AddRecord(session, requestInfo);
+            }catch(Exception e)
+            {
+                session.Logger.Error(e);
+            }
+
         }
 
 

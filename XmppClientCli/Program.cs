@@ -38,7 +38,6 @@ namespace XmppClientCli {
             p.xmppClient = xmppClient;
             xmppClient.Login();
             p.regEvent();
-
            
         }
 

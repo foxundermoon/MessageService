@@ -31,7 +31,14 @@ namespace MessageService.Core.SocketMessage.Command
                 session.CarID = "未知";
             rfidLogger.Info("origin body--->" + requestInfo.OriginBody);
             rfidLogger.Info("target body--->" + requestInfo.TargetBody);
-            manager.AddRecord(session, requestInfo);
+            try
+            {
+                manager.AddRecord(session, requestInfo);
+
+            }catch(Exception e)
+            {
+                session.Logger.Error(e);
+            }
         }
 
        
