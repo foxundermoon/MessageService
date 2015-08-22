@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MessageService.Core.SocketMessage.Command;
 namespace MessageService.Core.SocketMessage
 {
     public class SocketRequestParser : IRequestInfoParser<SocketRequestInfo>
@@ -21,6 +21,11 @@ namespace MessageService.Core.SocketMessage
             //Console.WriteLine("origin----->" + source);
             if (source.Length > 0)  //has content
             {
+                if (source.Equals(Command.Inspection.Request))
+                {
+                    rt.Key = Keys.Inspection;
+                    return rt;
+                }
                 int iPos = source.IndexOf(GpsSep);
                 if (iPos < 0) // no   $GPSLOC
                 {

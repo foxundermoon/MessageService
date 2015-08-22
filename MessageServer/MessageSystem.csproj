@@ -50,10 +50,14 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AnyLog, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AnyLog.0.1.5.0\lib\net40\AnyLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\lib\dll\log4net.dll</HintPath>
     </Reference>
@@ -118,12 +122,14 @@
     <Compile Include="Config\Config.cs" />
     <Compile Include="Core\Device\Manager.cs" />
     <Compile Include="Core\SocketMessage\Command\GPS.cs" />
+    <Compile Include="Core\SocketMessage\Command\Inspection.cs" />
     <Compile Include="Core\SocketMessage\Command\Keys.cs" />
     <Compile Include="Core\SocketMessage\Command\RFID.cs" />
     <Compile Include="Core\SocketMessage\Command\UNKNOW.cs" />
     <Compile Include="Core\SocketMessage\Data\GpsInfo.cs" />
     <Compile Include="Core\SocketMessage\Data\PointDis.cs" />
     <Compile Include="Core\SocketMessage\Data\RfidInfo.cs" />
+    <Compile Include="Core\SocketMessage\Inspection\Detector.cs" />
     <Compile Include="Core\SocketMessage\SocketServer.cs" />
     <Compile Include="Core\SocketMessage\SocketReceiveFilter.cs" />
     <Compile Include="Core\SocketMessage\SocketReceiveFilterFactory.cs" />
@@ -187,9 +193,21 @@
       <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
       <Name>myDotNetLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\lib\SupersocketClientEngine\Common\Common.Net45.csproj">
+      <Project>{87fa4c97-a768-463b-b1d1-317a07c5face}</Project>
+      <Name>Common.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SupersocketClientEngine\Core\Core.Net45.csproj">
+      <Project>{1bc7e184-8225-425a-900e-9fea38865e20}</Project>
+      <Name>Core.Net45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lib\SuperSocket\Common\SuperSocket.Common.Net45.csproj">
       <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
       <Name>SuperSocket.Common.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SuperSocket\ProtoBase\SuperSocket.ProtoBase.Net45.csproj">
+      <Project>{88c9312e-7520-4f6b-bf25-30da5990d270}</Project>
+      <Name>SuperSocket.ProtoBase.Net45</Name>
     </ProjectReference>
     <ProjectReference Include="..\lib\SuperSocket\SocketBase\SuperSocket.SocketBase.Net45.csproj">
       <Project>{40b77789-ea11-4c05-8f52-86711d7bcaaf}</Project>
@@ -198,6 +216,10 @@
     <ProjectReference Include="..\lib\SuperSocket\SocketEngine\SuperSocket.SocketEngine.Net45.csproj">
       <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
       <Name>SuperSocket.SocketEngine.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\SuperSocket\SocketService\SuperSocket.SocketService.Net45.csproj">
+      <Project>{b9113694-7226-4152-938d-3172b11571a1}</Project>
+      <Name>SuperSocket.SocketService.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

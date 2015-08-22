@@ -10,6 +10,7 @@ namespace MessageService.Core.SocketMessage.Command
     {
        public const string GPS = "GPS";
        public const string RFID = "RFID";
-       public const string UNKNOW = "UNKNOW"; 
+       public const string UNKNOW = "UNKNOW";
+        public const string Inspection = "INSPECTION";
     }
 }

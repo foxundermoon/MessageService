@@ -9,3 +9,6 @@
 	path = lib/SuperSocket
 	url = http://foxundermoon:232381204@swgit.vvfox.com/public/SuperSocket
 	branch = v1.6
+[submodule "lib/SupersocketClientEngine"]
+	path = lib/SupersocketClientEngine
+	url = http://swgit.vvfox.com/cSharpLib/supersocketClientEngine

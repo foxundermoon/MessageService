@@ -15,7 +15,10 @@ namespace MessageService {
             //XmppServer.GetInstance().StartUp();
             //HttpApiLauncher.Launch();
             //SocketServiceLauncher.Launch();
-            SocketServiceLauncher.Bootstrap();
+            //SocketServiceLauncher.Bootstrap();
+            var superSocketServer= Core.SocketMessage.Inspection.Detector.Instance;
+            superSocketServer.Interval = 10;
+            superSocketServer.Start();
             Console.WriteLine("all done....");
        }
         public static void Exit()

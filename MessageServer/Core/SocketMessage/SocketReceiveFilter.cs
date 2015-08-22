@@ -11,7 +11,7 @@ namespace MessageService.Core.SocketMessage
 {
    public class SocketReceiveFilter : TerminatorReceiveFilter<SocketRequestInfo>
     {
-      static readonly byte[] terminator = Encoding.ASCII.GetBytes("\r\n");
+    public  static readonly byte[] terminator = Encoding.ASCII.GetBytes("\r\n");
       SocketRequestParser gpsParser = new SocketRequestParser();
         public SocketReceiveFilter():base(terminator)
         {

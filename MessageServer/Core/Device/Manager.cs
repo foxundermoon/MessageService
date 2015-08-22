@@ -579,7 +579,7 @@ namespace MessageService.Core.Device
             }
             String strGD = strValues[3]; //高度
             String strTime = strValues[4];//时间
-            System.DateTime tm ;
+            System.DateTime tm  =default(System.DateTime);
             try
             {
                 string strY = strTime.Substring(0, 4);
@@ -591,9 +591,18 @@ namespace MessageService.Core.Device
                 string strsecond = strTime.Substring(12, strTime.Length - 12 - 1);
                 strsecond = Convert.ToInt32(Convert.ToDouble(strsecond)).ToString();
                 strTime = strY + "-" + strM + "-" + strD + " " + strH + ":" + strM + ":" + strsecond;
-                tm = new DateTime(Convert.ToInt32(strY), Convert.ToInt32(strM), Convert.ToInt32(strD), Convert.ToInt32(strH), Convert.ToInt32(strMinute), Convert.ToInt32(strsecond), DateTimeKind.Utc);
-                System.DateTime tnew = tm.ToLocalTime();
-                strTime = tnew.ToString("yyyy-MM-dd HH:mm:ss");
+                try
+                {
+                    tm = new DateTime(Convert.ToInt32(strY), Convert.ToInt32(strM), Convert.ToInt32(strD), Convert.ToInt32(strH), Convert.ToInt32(strMinute), Convert.ToInt32(strsecond), DateTimeKind.Utc);
+                    System.DateTime tnew = tm.ToLocalTime();
+                    strTime = tnew.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                catch(Exception all)
+                {
+                    return;
+                }
+
+              
             }
             catch (Exception fe)
             {

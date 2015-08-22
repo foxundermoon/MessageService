@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MessageService.Core.SocketMessage
 {
-  public  class SocketRequestInfo : IRequestInfo
+  public  class SocketRequestInfo : IRequestInfo 
     {
         public string Key{get;set;}
         public string OriginBody { get; set; }
