@@ -54,12 +54,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AnyLog, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AnyLog.0.1.5.0\lib\net40\AnyLog.dll</HintPath>
+    <Reference Include="agsXMPP, Version=1.3.1.0, Culture=neutral, PublicKeyToken=ff839b81f1debe86, processorArchitecture=MSIL">
+      <HintPath>..\packages\agsXMPP.1.3.1.0\lib\net40\agsXMPP.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\lib\dll\log4net.dll</HintPath>
+    <Reference Include="FoxundermoonLib, Version=1.0.5714.25197, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FoxundermoonLib.1.0.5714.25197\lib\net40\FoxundermoonLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -73,16 +78,44 @@
       <HintPath>..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.6\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.5.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Common.0.5.0.0\lib\net45\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.5.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.5.0.0\lib\net45\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.5.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Protocol.0.5.0.0\lib\net45\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.Common, Version=1.6.5.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.Common.1.6.5.0\lib\net45\SuperSocket.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase, Version=1.6.5.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.SocketBase.1.6.5.0\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine, Version=1.6.5.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.SocketEngine.1.6.5.0\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.SocketService, Version=1.6.5.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.SocketService.1.6.5.0\lib\net45\SuperSocket.SocketService.exe</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -183,44 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\lib\agsXmpp\agsXMPP2010.csproj">
-      <Project>{91ea0d0b-d3ba-497f-afeb-2cad59deba0e}</Project>
-      <Name>agsXMPP2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
-      <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
-      <Name>myDotNetLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SupersocketClientEngine\Common\Common.Net45.csproj">
-      <Project>{87fa4c97-a768-463b-b1d1-317a07c5face}</Project>
-      <Name>Common.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SupersocketClientEngine\Core\Core.Net45.csproj">
-      <Project>{1bc7e184-8225-425a-900e-9fea38865e20}</Project>
-      <Name>Core.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SuperSocket\Common\SuperSocket.Common.Net45.csproj">
-      <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
-      <Name>SuperSocket.Common.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SuperSocket\ProtoBase\SuperSocket.ProtoBase.Net45.csproj">
-      <Project>{88c9312e-7520-4f6b-bf25-30da5990d270}</Project>
-      <Name>SuperSocket.ProtoBase.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SuperSocket\SocketBase\SuperSocket.SocketBase.Net45.csproj">
-      <Project>{40b77789-ea11-4c05-8f52-86711d7bcaaf}</Project>
-      <Name>SuperSocket.SocketBase.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SuperSocket\SocketEngine\SuperSocket.SocketEngine.Net45.csproj">
-      <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
-      <Name>SuperSocket.SocketEngine.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\SuperSocket\SocketService\SuperSocket.SocketService.Net45.csproj">
-      <Project>{b9113694-7226-4152-938d-3172b11571a1}</Project>
-      <Name>SuperSocket.SocketService.Net45</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd">
