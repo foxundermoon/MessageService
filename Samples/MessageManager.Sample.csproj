@@ -48,6 +48,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="agsXMPP, Version=1.3.1.0, Culture=neutral, PublicKeyToken=ff839b81f1debe86, processorArchitecture=MSIL">
+      <HintPath>..\packages\agsXMPP.1.3.1.0\lib\net40\agsXMPP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FoxundermoonLib, Version=1.1.5716.22096, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FoxundermoonLib.1.1.5716.22096\lib\net40\FoxundermoonLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MessageManager, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MessageManager.1.0.1.1\lib\net40\MessageManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.6\lib\net40\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -83,6 +103,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,16 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\lib\myDotNetLib\myDotNetLib.csproj">
-      <Project>{7a04da80-47c9-419c-800c-980b45e955cd}</Project>
-      <Name>myDotNetLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MessageManager\MessageManager.csproj">
-      <Project>{0af92235-54b0-46b0-9f7c-e753daa58a38}</Project>
-      <Name>MessageManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -127,6 +138,9 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="changelog.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
