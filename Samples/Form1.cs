@@ -21,7 +21,7 @@ namespace Samples
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var manager = MessageManager.MessageManager.Instance;  //获取 MessageManager实例
+             var manager = MessageManager.MessageManager.Instance;  //获取 MessageManager实例
             manager.UserName = textBox2.Text;// "user2";  //设置登录用户名
             manager.UserPassword = textBox3.Text;// "222";  //登录用户的密码
             manager.Resource = textBox11.Text;

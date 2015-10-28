@@ -7,6 +7,8 @@ using Owin;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using System.Net.Http.Formatting;
+using System.Configuration;
+using Microsoft.Owin.Cors;
 
 namespace MessageService
 {
@@ -14,7 +16,11 @@ namespace MessageService
     {
         public static void Launch()
         {
-            string baseAddress = "http://localhost:9000/";
+
+            var port = ConfigurationManager.AppSettings["MessageWebApiPort"].ToString();
+            if (string.IsNullOrEmpty(port))
+                Program.Exit("MessageWebApiPort没有正确设置，请检查app.config");
+            string baseAddress = "http://localhost:"+ port;
             // Start OWIN host 
             Console.WriteLine("Starting webApi service ......");
             WebApp.Start<HttpApiLauncher>(url: baseAddress);
@@ -40,6 +46,8 @@ namespace MessageService
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
             appBuilder.UseWebApi(config);
+            appBuilder.UseCors(CorsOptions.AllowAll);
+            appBuilder.MapSignalR();
         }
     }
 }

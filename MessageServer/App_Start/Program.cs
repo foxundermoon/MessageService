@@ -13,7 +13,7 @@ namespace MessageService {
            //AlterTables.Change是否历史();
            XmppLauncher.Launch();
             //XmppServer.GetInstance().StartUp();
-            //HttpApiLauncher.Launch();
+            HttpApiLauncher.Launch();
             //SocketServiceLauncher.Launch();
             //SocketServiceLauncher.Bootstrap();
             var superSocketServer= Core.SocketMessage.Inspection.Detector.Instance;

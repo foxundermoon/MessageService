@@ -56,8 +56,8 @@
       <HintPath>..\packages\FoxundermoonLib.1.1.5716.22096\lib\net40\FoxundermoonLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MessageManager, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessageManager.1.0.1.1\lib\net40\MessageManager.dll</HintPath>
+    <Reference Include="MessageManager, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MessageManager.1.0.2.2\lib\net40\MessageManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
