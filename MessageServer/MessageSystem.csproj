@@ -175,6 +175,7 @@
     <Compile Include="Config\Config.cs" />
     <Compile Include="Core\Device\Manager.cs" />
     <Compile Include="Core\signalR\MessageHub.cs" />
+    <Compile Include="Core\signalR\RawConnection.cs" />
     <Compile Include="Core\SocketMessage\Command\GPS.cs" />
     <Compile Include="Core\SocketMessage\Command\Inspection.cs" />
     <Compile Include="Core\SocketMessage\Command\Keys.cs" />

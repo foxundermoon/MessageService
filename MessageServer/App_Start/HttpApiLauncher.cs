@@ -9,6 +9,9 @@ using Microsoft.Owin.Hosting;
 using System.Net.Http.Formatting;
 using System.Configuration;
 using Microsoft.Owin.Cors;
+using MessageService.Core.signalR;
+using Microsoft.AspNet.SignalR;
+using System.Diagnostics;
 
 namespace MessageService
 {
@@ -46,8 +49,26 @@ namespace MessageService
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
             appBuilder.UseWebApi(config);
-            appBuilder.UseCors(CorsOptions.AllowAll);
-            appBuilder.MapSignalR();
+
+            appBuilder.Map("/raw-connection", map =>
+            {
+                map.UseCors(CorsOptions.AllowAll)
+                .RunSignalR<RawConnection>();
+            });
+            appBuilder.Map("/signalr", map =>
+            {
+                var hubConfig = new HubConfiguration
+                {
+                    // versions of IE) require JSONP to work cross domain
+                    EnableJSONP = true ,
+                  
+                };
+                map.UseCors(CorsOptions.AllowAll)
+                .RunSignalR(hubConfig);
+            });
+            // Turn tracing on programmatically
+
+            GlobalHost.TraceManager.Switch.Level = SourceLevels.Information;
         }
     }
 }

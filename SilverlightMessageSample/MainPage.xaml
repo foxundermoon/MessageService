@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="SilverlightMessageSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="9600">
+
+    <Grid x:Name="LayoutRoot" Background="White" Margin="0,20,0,0" Loaded="LayoutRoot_Loaded">
+        <TextBox x:Name="sendMessage" HorizontalAlignment="Left" Height="23" Margin="346,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Text="hello world"/>
+        <Button x:Name="buttonSend" Content="发送" HorizontalAlignment="Left" Margin="559,117,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="337,157,0,28" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="Auto" Width="297">
+        	<Run Text="aaa"/>
+        	<LineBreak/>
+        	<Run/>
+        </TextBlock>
+        <TextBox x:Name="serverHost" HorizontalAlignment="Left" Height="23" Margin="346,80,0,0" TextWrapping="Wrap" Text="10.80.4.8" VerticalAlignment="Top" Width="108"/>
+        <Button x:Name="buttonconnect" Content="连接" HorizontalAlignment="Left" Margin="559,80,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
+        <TextBox x:Name="serverPort" HorizontalAlignment="Left" Height="23" Margin="466,80,0,0" TextWrapping="Wrap" Text="7781" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.208,0.616" />
+
+    </Grid>
+</UserControl>
